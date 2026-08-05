@@ -133,12 +133,13 @@ header{
 
 header.scrolled{
 
-    background:rgba(0,25,33,.82);
+    background:rgba(0,25,33,.72);
 
-    backdrop-filter:blur(22px);
-    -webkit-backdrop-filter:blur(22px);
+    backdrop-filter:blur(20px);
 
     border-bottom:1px solid rgba(255,255,255,.08);
+
+    box-shadow:0 8px 30px rgba(0,0,0,.18);
 
 }
 
@@ -238,6 +239,7 @@ nav a:hover::after{
 
     position:relative;
 
+    min-height:100svh;
     min-height:100vh;
 
     display:flex;
@@ -251,6 +253,8 @@ nav a:hover::after{
     overflow:hidden;
 
     background:url("Assets/images/mainImage.jpeg") center center/cover no-repeat;
+
+    background-position:center center;
 
 }
 
@@ -942,5 +946,155 @@ nav a:hover::after{
         padding:24px;
 
     }
+
+}
+
+@media (max-width:1200px){
+
+    .hero{
+
+        background-position:center center;
+
+    }
+
+}
+
+@media (max-width:992px){
+
+    .hero{
+
+        background-position:center center;
+
+    }
+
+}
+
+@media (max-width:768px){
+
+    .hero{
+
+        min-height:100svh;
+
+        background-position:55% center;
+
+    }
+
+    .hero-content{
+
+        width:90%;
+
+    }
+
+    .hero-content h1{
+
+        font-size:clamp(2.8rem,12vw,4.5rem);
+
+        letter-spacing:4px;
+
+    }
+
+    .hero-content p{
+
+        font-size:1rem;
+
+        line-height:1.7;
+
+    }
+
+}
+
+@media (max-width:480px){
+
+    .hero{
+
+        background-position:60% center;
+
+    }
+
+}
+
+.language-switch{
+
+    margin-left:auto;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    font-family:"Poppins",sans-serif;
+
+}
+
+.language-switch span{
+
+    color:rgba(255,255,255,.35);
+
+    user-select:none;
+
+}
+
+.language{
+
+    position:relative;
+
+    background:none;
+
+    border:none;
+
+    color:rgba(255,255,255,.55);
+
+    font-size:.95rem;
+
+    font-family:"Poppins",sans-serif;
+
+    cursor:pointer;
+
+    transition:var(--transition);
+
+}
+
+.language:hover{
+
+    color:var(--primary);
+
+}
+
+.language.active{
+
+    color:var(--primary);
+
+    font-weight:600;
+
+}
+
+.language::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+
+    bottom:-6px;
+
+    width:0;
+
+    height:2px;
+
+    border-radius:999px;
+
+    background:var(--primary);
+
+    transform:translateX(-50%);
+
+    transition:var(--transition);
+
+}
+
+.language.active::after{
+
+    width:100%;
 
 }
