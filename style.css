@@ -133,13 +133,13 @@ header{
 
 header.scrolled{
 
-    background:rgba(0,25,33,.72);
+    background:rgba(3,22,29,.62);
 
-    backdrop-filter:blur(20px);
+    backdrop-filter:blur(22px);
 
     border-bottom:1px solid rgba(255,255,255,.08);
 
-    box-shadow:0 8px 30px rgba(0,0,0,.18);
+    box-shadow:0 10px 40px rgba(0,0,0,.18);
 
 }
 
@@ -260,17 +260,13 @@ nav a:hover::after{
 
 .hero::before{
 
-    content:"";
-
-    position:absolute;
-
-    inset:0;
-
     background:linear-gradient(
 
-        rgba(0,18,25,.18),
+        rgba(0,18,30,.18),
 
-        rgba(0,25,33,.60)
+        rgba(0,25,33,.58),
+
+        rgba(0,25,33,.90)
 
     );
 
@@ -344,7 +340,7 @@ nav a:hover::after{
 
     color:var(--background);
 
-    transform:translateY(-5px);
+    transform:translateY(-5px) scale(1.03);
 
     box-shadow:0 15px 35px rgba(92,200,232,.35);
 
@@ -1096,5 +1092,59 @@ nav a:hover::after{
 .language.active::after{
 
     width:100%;
+
+}
+
+.language-switch{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:4px;
+
+    padding:4px;
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.12);
+
+}
+
+.language-switch button{
+
+    padding:8px 14px;
+
+    border:none;
+
+    border-radius:999px;
+
+    background:transparent;
+
+    color:white;
+
+    font-family:"Poppins",sans-serif;
+
+    font-size:.82rem;
+
+    cursor:pointer;
+
+    transition:var(--transition);
+
+}
+
+.language-switch button.active{
+
+    background:rgba(255,255,255,.18);
+
+}
+
+.language-switch button:hover{
+
+    background:rgba(255,255,255,.12);
 
 }
