@@ -1183,19 +1183,21 @@ nav a:hover::after{
 
     position:relative;
 
-    padding:48px;
+    min-height:320px;
+
+    padding:42px;
 
     border-radius:28px;
 
     background:rgba(255,255,255,.05);
 
-    border:1px solid rgba(255,255,255,.08);
+    backdrop-filter:blur(20px);
 
-    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,.08);
 
     overflow:hidden;
 
-    transition:var(--transition);
+    transition:all .45s cubic-bezier(.22,.61,.36,1);
 
     cursor:default;
 
@@ -1211,13 +1213,13 @@ nav a:hover::after{
 
     background:linear-gradient(
         135deg,
-        rgba(92,200,232,.08),
+        rgba(92,200,232,.12),
         transparent 55%
     );
 
     opacity:0;
 
-    transition:var(--transition);
+    transition:.45s;
 
 }
 
@@ -1225,9 +1227,9 @@ nav a:hover::after{
 
     transform:translateY(-12px);
 
-    border-color:var(--primary);
+    border-color:rgba(92,200,232,.45);
 
-    box-shadow:0 28px 60px rgba(0,0,0,.28);
+    box-shadow:0 30px 70px rgba(0,0,0,.28);
 
 }
 
@@ -1243,7 +1245,7 @@ nav a:hover::after{
 
     top:18px;
 
-    right:26px;
+    right:24px;
 
     font-family:"Poppins",sans-serif;
 
@@ -1251,19 +1253,39 @@ nav a:hover::after{
 
     font-weight:800;
 
-    color:rgba(255,255,255,.045);
+    color:rgba(255,255,255,.04);
+
+    transition:.4s;
 
     user-select:none;
 
     pointer-events:none;
-
-    transition:var(--transition);
 
 }
 
 .fact-card:hover .fact-number{
 
     transform:scale(1.08);
+
+}
+
+.fact-icon{
+
+    position:relative;
+
+    z-index:2;
+
+    font-size:2.4rem;
+
+    margin-bottom:18px;
+
+    transition:var(--transition);
+
+}
+
+.fact-card:hover .fact-icon{
+
+    transform:translateY(-4px) scale(1.08);
 
 }
 
@@ -1275,9 +1297,35 @@ nav a:hover::after{
 
     font-family:"Poppins",sans-serif;
 
-    font-size:1.35rem;
+    font-size:1.4rem;
 
-    margin-bottom:22px;
+    margin-bottom:18px;
+
+}
+
+.fact-card h3::after{
+
+    content:"";
+
+    display:block;
+
+    width:0;
+
+    height:3px;
+
+    margin-top:16px;
+
+    border-radius:999px;
+
+    background:var(--primary);
+
+    transition:var(--transition);
+
+}
+
+.fact-card:hover h3::after{
+
+    width:90px;
 
 }
 
@@ -1291,7 +1339,19 @@ nav a:hover::after{
 
     line-height:2;
 
-    opacity:.95;
+    opacity:0;
+
+    transform:translateY(18px);
+
+    transition:var(--transition);
+
+}
+
+.fact-card:hover p{
+
+    opacity:1;
+
+    transform:translateY(0);
 
 }
 
@@ -1300,6 +1360,24 @@ nav a:hover::after{
     .facts-grid{
 
         grid-template-columns:1fr;
+
+    }
+
+}
+
+@media (hover:none){
+
+    .fact-card p{
+
+        opacity:1;
+
+        transform:none;
+
+    }
+
+    .fact-card h3::after{
+
+        width:90px;
 
     }
 
