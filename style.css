@@ -1157,9 +1157,13 @@ nav a:hover::after{
 
     background:linear-gradient(
         180deg,
-        #001921,
-        #032734
+        #001921 0%,
+        #032734 100%
     );
+
+    position:relative;
+
+    overflow:hidden;
 
 }
 
@@ -1167,9 +1171,9 @@ nav a:hover::after{
 
     display:grid;
 
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(2,minmax(320px,1fr));
 
-    gap:35px;
+    gap:36px;
 
     margin-top:80px;
 
@@ -1179,7 +1183,7 @@ nav a:hover::after{
 
     position:relative;
 
-    padding:45px;
+    padding:48px;
 
     border-radius:28px;
 
@@ -1193,15 +1197,43 @@ nav a:hover::after{
 
     transition:var(--transition);
 
+    cursor:default;
+
+}
+
+.fact-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:linear-gradient(
+        135deg,
+        rgba(92,200,232,.08),
+        transparent 55%
+    );
+
+    opacity:0;
+
+    transition:var(--transition);
+
 }
 
 .fact-card:hover{
 
-    transform:translateY(-10px);
+    transform:translateY(-12px);
 
     border-color:var(--primary);
 
-    box-shadow:0 25px 60px rgba(0,0,0,.25);
+    box-shadow:0 28px 60px rgba(0,0,0,.28);
+
+}
+
+.fact-card:hover::before{
+
+    opacity:1;
 
 }
 
@@ -1211,23 +1243,35 @@ nav a:hover::after{
 
     top:18px;
 
-    right:28px;
+    right:26px;
 
     font-family:"Poppins",sans-serif;
 
-    font-size:4.5rem;
+    font-size:5rem;
 
     font-weight:800;
 
-    color:rgba(255,255,255,.05);
+    color:rgba(255,255,255,.045);
+
+    user-select:none;
 
     pointer-events:none;
 
-    user-select:none;
+    transition:var(--transition);
+
+}
+
+.fact-card:hover .fact-number{
+
+    transform:scale(1.08);
 
 }
 
 .fact-card h3{
+
+    position:relative;
+
+    z-index:2;
 
     font-family:"Poppins",sans-serif;
 
@@ -1235,21 +1279,19 @@ nav a:hover::after{
 
     margin-bottom:22px;
 
-    position:relative;
-
-    z-index:2;
-
 }
 
 .fact-card p{
+
+    position:relative;
+
+    z-index:2;
 
     color:var(--text);
 
     line-height:2;
 
-    position:relative;
-
-    z-index:2;
+    opacity:.95;
 
 }
 
