@@ -2009,3 +2009,115 @@ nav a:hover::after{
     }
 
 }
+
+/* ==================== CSS 8 : MOBILE NAVIGATION ==================== */
+
+.menu-toggle{
+    display:none;
+
+    width:44px;
+    height:44px;
+
+    padding:0;
+
+    border:1px solid var(--border);
+    border-radius:14px;
+
+    background:rgba(255,255,255,.05);
+
+    cursor:pointer;
+
+    align-items:center;
+    justify-content:center;
+
+    flex-direction:column;
+
+    gap:5px;
+}
+
+
+.menu-toggle span{
+    display:block;
+
+    width:20px;
+    height:2px;
+
+    border-radius:999px;
+
+    background:var(--white);
+
+    transition:
+        transform .3s ease,
+        opacity .3s ease;
+}
+
+
+@media (max-width:768px){
+
+    .navbar-container{
+        position:relative;
+    }
+
+
+    .nav-links{
+
+        display:none;
+
+        position:absolute;
+
+        top:calc(100% + 12px);
+
+        left:0;
+        right:0;
+
+        flex-direction:column;
+
+        gap:6px;
+
+        padding:14px;
+
+        border:1px solid var(--border);
+
+        border-radius:20px;
+
+        background:rgba(0,25,33,.92);
+
+        backdrop-filter:blur(20px);
+
+        -webkit-backdrop-filter:blur(20px);
+
+        box-shadow:var(--shadow);
+
+        z-index:1000;
+    }
+
+
+    .nav-links.active{
+        display:flex;
+    }
+
+
+    .nav-links a{
+        width:100%;
+
+        padding:14px 16px;
+
+        border-radius:12px;
+    }
+
+
+    .nav-links a:hover{
+        background:rgba(92,200,232,.1);
+    }
+
+
+    .language-switch{
+        display:none;
+    }
+
+
+    .menu-toggle{
+        display:flex;
+    }
+
+}
