@@ -73,67 +73,112 @@ const quizQuestions = [
 
     {
         question: "Di mana Upacara Melasti biasanya dilaksanakan?",
-
         options: [
             "Di gunung",
             "Di laut atau sumber air",
             "Di dalam rumah",
             "Di sawah"
         ],
-
         answer: 1
     },
 
     {
         question: "Apa tujuan utama dari Upacara Melasti?",
-
         options: [
             "Merayakan panen",
             "Menyambut musim hujan",
             "Penyucian diri dan alam",
             "Memperingati hari kelahiran"
         ],
-
         answer: 2
     },
 
     {
         question: "Melasti biasanya dilaksanakan menjelang hari raya apa?",
-
         options: [
             "Galungan",
             "Kuningan",
             "Nyepi",
             "Saraswati"
         ],
-
         answer: 2
     },
 
     {
         question: "Apa yang biasanya dibawa dalam prosesi Melasti?",
-
         options: [
             "Pratima dan sarana upacara",
             "Alat olahraga",
             "Peralatan memasak",
             "Buku pelajaran"
         ],
-
         answer: 0
     },
 
     {
         question: "Salah satu nilai penting dalam Melasti adalah...",
-
         options: [
             "Persaingan",
             "Menjaga keseimbangan dengan alam",
             "Mengumpulkan kekayaan",
             "Berlomba menjadi yang tercepat"
         ],
-
         answer: 1
+    },
+
+    {
+        question: "Melasti merupakan bagian dari rangkaian persiapan menuju...",
+        options: [
+            "Hari Raya Nyepi",
+            "Hari Kemerdekaan",
+            "Hari Raya Galungan",
+            "Hari Saraswati"
+        ],
+        answer: 0
+    },
+
+    {
+        question: "Salah satu unsur penting dalam Melasti adalah hubungan manusia dengan...",
+        options: [
+            "Teknologi",
+            "Alam",
+            "Perdagangan",
+            "Olahraga"
+        ],
+        answer: 1
+    },
+
+    {
+        question: "Apa makna penyucian dalam Upacara Melasti?",
+        options: [
+            "Membersihkan diri secara lahir dan batin",
+            "Mengumpulkan benda-benda baru",
+            "Mempersiapkan makanan",
+            "Menghias rumah"
+        ],
+        answer: 0
+    },
+
+    {
+        question: "Ke mana masyarakat biasanya melakukan perjalanan dalam prosesi Melasti?",
+        options: [
+            "Ke pusat perbelanjaan",
+            "Ke sumber air seperti laut",
+            "Ke sekolah",
+            "Ke pasar"
+        ],
+        answer: 1
+    },
+
+    {
+        question: "Apa salah satu tujuan Melasti terhadap lingkungan?",
+        options: [
+            "Menjaga keharmonisan dan kesucian alam",
+            "Menggunakan lebih banyak sumber daya",
+            "Membangun tempat baru",
+            "Menghindari lingkungan sekitar"
+        ],
+        answer: 0
     }
 
 ];
@@ -142,11 +187,10 @@ const quizQuestions = [
 // ==================== QUIZ VARIABLES ====================
 
 let currentQuestion = 0;
-
 let score = 0;
-
-let answerSelected = false;
-
+let selectedQuestions = [];
+let selectedAnswer = null;
+let answerConfirmed = false;
 let showingResult = false;
 
 
@@ -168,34 +212,84 @@ const progressBar =
     document.querySelector(".quiz-progress-bar");
 
 
+// ==================== SHUFFLE ====================
+
+function shuffleArray(array) {
+
+    const shuffled = [...array];
+
+    for (let i = shuffled.length - 1; i > 0; i--) {
+
+        const j =
+            Math.floor(Math.random() * (i + 1));
+
+        [shuffled[i], shuffled[j]] =
+            [shuffled[j], shuffled[i]];
+
+    }
+
+    return shuffled;
+
+}
+
+
+// ==================== CREATE QUIZ ====================
+
+function createQuiz() {
+
+    selectedQuestions =
+        shuffleArray(quizQuestions)
+            .slice(0, 5)
+            .map(question => {
+
+                const shuffledOptions =
+                    question.options.map((option, index) => ({
+                        text: option,
+                        correct: index === question.answer
+                    }));
+
+                return {
+                    question: question.question,
+                    options: shuffleArray(shuffledOptions)
+                };
+
+            });
+
+
+    currentQuestion = 0;
+    score = 0;
+    selectedAnswer = null;
+    answerConfirmed = false;
+    showingResult = false;
+
+}
+
+
 // ==================== LOAD QUESTION ====================
 
-function loadQuestion(){
+function loadQuestion() {
 
-    if(
+    if (
         !questionNumber ||
         !questionText ||
         !optionsContainer ||
         !nextButton ||
         !progressBar
-    ){
-
+    ) {
         return;
-
     }
 
 
     const question =
-        quizQuestions[currentQuestion];
+        selectedQuestions[currentQuestion];
 
 
-    answerSelected = false;
-
-    showingResult = false;
+    selectedAnswer = null;
+    answerConfirmed = false;
 
 
     questionNumber.textContent =
-        `Pertanyaan ${currentQuestion + 1} dari ${quizQuestions.length}`;
+        `Pertanyaan ${currentQuestion + 1} dari 5`;
 
 
     questionText.textContent =
@@ -205,7 +299,7 @@ function loadQuestion(){
     optionsContainer.innerHTML = "";
 
 
-    question.options.forEach((option,index) => {
+    question.options.forEach((option, index) => {
 
         const button =
             document.createElement("button");
@@ -215,7 +309,8 @@ function loadQuestion(){
 
         button.type = "button";
 
-        button.textContent = option;
+        button.textContent =
+            option.text;
 
 
         button.addEventListener("click", () => {
@@ -231,15 +326,14 @@ function loadQuestion(){
 
 
     progressBar.style.width =
-        `${((currentQuestion + 1) / quizQuestions.length) * 100}%`;
+        `${((currentQuestion + 1) / 5) * 100}%`;
 
 
     nextButton.style.display =
         "none";
 
-
     nextButton.textContent =
-        currentQuestion === quizQuestions.length - 1
+        currentQuestion === 4
             ? "Lihat Hasil"
             : "Pertanyaan Berikutnya";
 
@@ -248,18 +342,60 @@ function loadQuestion(){
 
 // ==================== SELECT ANSWER ====================
 
-function selectAnswer(selectedAnswer){
+function selectAnswer(index) {
 
-    if(answerSelected){
+    if (answerConfirmed) {
         return;
     }
 
 
-    answerSelected = true;
+    selectedAnswer = index;
+
+
+    const options =
+        document.querySelectorAll(".quiz-option");
+
+
+    options.forEach((button, buttonIndex) => {
+
+        button.classList.remove("selected");
+
+        if (buttonIndex === index) {
+
+            button.classList.add("selected");
+
+        }
+
+    });
+
+
+    nextButton.textContent =
+        "Konfirmasi Jawaban";
+
+
+    nextButton.style.display =
+        "block";
+
+}
+
+
+// ==================== CONFIRM ANSWER ====================
+
+function confirmAnswer() {
+
+    if (
+        selectedAnswer === null ||
+        answerConfirmed
+    ) {
+        return;
+    }
+
+
+    answerConfirmed = true;
 
 
     const question =
-        quizQuestions[currentQuestion];
+        selectedQuestions[currentQuestion];
 
 
     const options =
@@ -270,10 +406,14 @@ function selectAnswer(selectedAnswer){
 
         button.disabled = true;
 
+        button.classList.remove("selected");
+
     });
 
 
-    if(selectedAnswer === question.answer){
+    if (
+        question.options[selectedAnswer].correct
+    ) {
 
         score++;
 
@@ -281,47 +421,59 @@ function selectAnswer(selectedAnswer){
         options[selectedAnswer]
             .classList.add("correct");
 
-    }else{
+    } else {
 
         options[selectedAnswer]
             .classList.add("wrong");
 
 
-        options[question.answer]
+        const correctIndex =
+            question.options.findIndex(
+                option => option.correct
+            );
+
+
+        options[correctIndex]
             .classList.add("correct");
 
     }
 
 
-    nextButton.style.display =
-        "block";
+    nextButton.textContent =
+        currentQuestion === 4
+            ? "Lihat Hasil"
+            : "Pertanyaan Berikutnya";
 
 }
 
 
 // ==================== NEXT BUTTON ====================
 
-if(nextButton){
+if (nextButton) {
 
     nextButton.addEventListener("click", () => {
 
-        if(!answerSelected){
+        if (showingResult) {
+
+            createQuiz();
+
+            loadQuestion();
 
             return;
 
         }
 
 
-        if(showingResult){
+        if (!answerConfirmed) {
 
-            restartQuiz();
+            confirmAnswer();
 
             return;
 
         }
 
 
-        if(currentQuestion < quizQuestions.length - 1){
+        if (currentQuestion < 4) {
 
             currentQuestion++;
 
@@ -341,7 +493,7 @@ if(nextButton){
 
 // ==================== SHOW RESULT ====================
 
-function showResult(){
+function showResult() {
 
     showingResult = true;
 
@@ -351,7 +503,7 @@ function showResult(){
 
 
     questionText.textContent =
-        `Kamu mendapatkan ${score} dari ${quizQuestions.length} jawaban benar.`;
+        `Kamu mendapatkan ${score} dari 5 jawaban benar.`;
 
 
     optionsContainer.innerHTML = "";
@@ -366,17 +518,17 @@ function showResult(){
     );
 
 
-    if(score === quizQuestions.length){
+    if (score === 5) {
 
         resultMessage.textContent =
             "Luar biasa! Kamu benar-benar mengenal Melasti.";
 
-    }else if(score >= 3){
+    } else if (score >= 3) {
 
         resultMessage.textContent =
             "Bagus! Kamu sudah cukup mengenal Melasti.";
 
-    }else{
+    } else {
 
         resultMessage.textContent =
             "Yuk pelajari lagi tentang Melasti dan coba kembali!";
@@ -403,24 +555,8 @@ function showResult(){
 }
 
 
-// ==================== RESTART QUIZ ====================
-
-function restartQuiz(){
-
-    currentQuestion = 0;
-
-    score = 0;
-
-    answerSelected = false;
-
-    showingResult = false;
-
-
-    loadQuestion();
-
-}
-
-
 // ==================== START QUIZ ====================
+
+createQuiz();
 
 loadQuestion();
