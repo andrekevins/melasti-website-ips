@@ -1631,6 +1631,114 @@ nav a:hover::after{
 
 }
 
+/* ==================== CSS 7 : QUIZ BASE FIX ==================== */
+
+.quiz-options{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    width:100%;
+}
+
+
+.quiz-option{
+    width:100%;
+    min-height:56px;
+
+    padding:16px 20px;
+
+    border:1px solid var(--border);
+    border-radius:16px;
+
+    background:rgba(255,255,255,.04);
+
+    color:var(--text);
+
+    font-family:inherit;
+    font-size:1rem;
+    text-align:left;
+
+    cursor:pointer;
+
+    transition:
+        background .3s ease,
+        border-color .3s ease,
+        box-shadow .3s ease,
+        transform .3s ease;
+}
+
+
+.quiz-option:hover{
+    border-color:var(--primary);
+
+    background:rgba(92,200,232,.08);
+
+    transform:translateY(-2px);
+}
+
+
+.quiz-option.selected{
+    border-color:var(--primary);
+
+    background:rgba(92,200,232,.16);
+
+    box-shadow:
+        0 0 15px rgba(92,200,232,.35),
+        0 0 35px rgba(92,200,232,.15);
+
+    transform:translateY(-2px);
+}
+
+
+.quiz-option.correct{
+    border-color:#4DFF88;
+
+    background:rgba(77,255,136,.12);
+
+    box-shadow:
+        0 0 15px rgba(77,255,136,.4),
+        0 0 35px rgba(77,255,136,.18);
+
+    color:#FFFFFF;
+}
+
+
+.quiz-option.wrong{
+    border-color:#FF5555;
+
+    background:rgba(255,85,85,.12);
+
+    box-shadow:
+        0 0 15px rgba(255,85,85,.4),
+        0 0 35px rgba(255,85,85,.18);
+
+    color:#FFFFFF;
+}
+
+
+.quiz-option:disabled{
+    cursor:default;
+}
+
+
+.quiz-option.correct:hover,
+.quiz-option.wrong:hover{
+    transform:none;
+}
+
+
+.quiz-result-message{
+    margin:10px 0;
+
+    text-align:center;
+
+    color:var(--text);
+
+    font-size:1rem;
+
+    line-height:1.7;
+}
+
 @media (max-width:768px){
 
     .quiz-section{
