@@ -299,6 +299,7 @@ const quizQuestions = [
 let currentQuestion = 0;
 let score = 0;
 let selectedQuestions = [];
+let usedQuestions = [];
 let selectedAnswer = null;
 let answerConfirmed = false;
 let showingResult = false;
@@ -347,29 +348,77 @@ function shuffleArray(array) {
 
 function createQuiz() {
 
+    let availableQuestions =
+        quizQuestions.filter(
+            (question, index) =>
+                !usedQuestions.includes(index)
+        );
+
+
+    // Kalau soal yang tersisa kurang dari 5,
+    // mulai kembali dari awal
+    if (availableQuestions.length < 5) {
+
+        usedQuestions = [];
+
+        availableQuestions = [...quizQuestions];
+
+    }
+
+
+    const questionPool =
+        availableQuestions.map(question => ({
+            question: question,
+            index: quizQuestions.indexOf(question)
+        }));
+
+
+    const selected =
+        shuffleArray(questionPool)
+            .slice(0, 5);
+
+
     selectedQuestions =
-        shuffleArray(quizQuestions)
-            .slice(0, 5)
-            .map(question => {
+        selected.map(item => {
 
-                const shuffledOptions =
-                    question.options.map((option, index) => ({
-                        text: option,
-                        correct: index === question.answer
-                    }));
+            usedQuestions.push(item.index);
 
-                return {
-                    question: question.question,
-                    options: shuffleArray(shuffledOptions)
-                };
 
-            });
+            const question =
+                item.question;
+
+
+            const shuffledOptions =
+                question.options.map((option, index) => ({
+
+                    text: option,
+
+                    correct:
+                        index === question.answer
+
+                }));
+
+
+            return {
+
+                question: question.question,
+
+                options:
+                    shuffleArray(shuffledOptions)
+
+            };
+
+        });
 
 
     currentQuestion = 0;
+
     score = 0;
+
     selectedAnswer = null;
+
     answerConfirmed = false;
+
     showingResult = false;
 
 }
