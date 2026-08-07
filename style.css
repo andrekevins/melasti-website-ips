@@ -1751,3 +1751,66 @@ nav a:hover::after{
     }
 
 }
+
+/* ==================== CSS 7 : QUIZ FEEDBACK ==================== */
+
+.quiz-option.correct{
+
+    border-color:#4DFF88;
+
+    background:rgba(77,255,136,.12);
+
+    box-shadow:
+        0 0 15px rgba(77,255,136,.35),
+        0 0 35px rgba(77,255,136,.15);
+
+    color:#FFFFFF;
+
+}
+
+
+.quiz-option.wrong{
+
+    border-color:#FF5555;
+
+    background:rgba(255,85,85,.12);
+
+    box-shadow:
+        0 0 15px rgba(255,85,85,.4),
+        0 0 35px rgba(255,85,85,.18);
+
+    color:#FFFFFF;
+
+}
+
+
+.quiz-option.correct:hover,
+.quiz-option.wrong:hover{
+
+    transform:none;
+
+    cursor:default;
+
+}
+
+
+.quiz-option:disabled{
+
+    cursor:default;
+
+}
+
+
+.quiz-result-message{
+
+    margin:10px 0 10px;
+
+    text-align:center;
+
+    color:var(--text);
+
+    font-size:1rem;
+
+    line-height:1.7;
+
+}

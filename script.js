@@ -147,6 +147,8 @@ let score = 0;
 
 let answerSelected = false;
 
+let showingResult = false;
+
 
 // ==================== QUIZ ELEMENTS ====================
 
@@ -168,24 +170,28 @@ const progressBar =
 
 // ==================== LOAD QUESTION ====================
 
-function loadQuestion() {
+function loadQuestion(){
 
-    if (
+    if(
         !questionNumber ||
         !questionText ||
         !optionsContainer ||
         !nextButton ||
         !progressBar
-    ) {
+    ){
 
         return;
 
     }
 
+
     const question =
         quizQuestions[currentQuestion];
 
+
     answerSelected = false;
+
+    showingResult = false;
 
 
     questionNumber.textContent =
@@ -199,17 +205,17 @@ function loadQuestion() {
     optionsContainer.innerHTML = "";
 
 
-    question.options.forEach((option, index) => {
+    question.options.forEach((option,index) => {
 
         const button =
             document.createElement("button");
+
 
         button.classList.add("quiz-option");
 
         button.type = "button";
 
-        button.textContent =
-            option;
+        button.textContent = option;
 
 
         button.addEventListener("click", () => {
@@ -231,16 +237,23 @@ function loadQuestion() {
     nextButton.style.display =
         "none";
 
+
+    nextButton.textContent =
+        currentQuestion === quizQuestions.length - 1
+            ? "Lihat Hasil"
+            : "Pertanyaan Berikutnya";
+
 }
 
 
 // ==================== SELECT ANSWER ====================
 
-function selectAnswer(selectedAnswer) {
+function selectAnswer(selectedAnswer){
 
-    if (answerSelected) {
+    if(answerSelected){
         return;
     }
+
 
     answerSelected = true;
 
@@ -260,18 +273,22 @@ function selectAnswer(selectedAnswer) {
     });
 
 
-    if (selectedAnswer === question.answer) {
+    if(selectedAnswer === question.answer){
 
         score++;
 
 
-        options[selectedAnswer].classList.add("correct");
+        options[selectedAnswer]
+            .classList.add("correct");
 
-    } else {
+    }else{
 
-        options[selectedAnswer].classList.add("wrong");
+        options[selectedAnswer]
+            .classList.add("wrong");
 
-        options[question.answer].classList.add("correct");
+
+        options[question.answer]
+            .classList.add("correct");
 
     }
 
@@ -279,45 +296,43 @@ function selectAnswer(selectedAnswer) {
     nextButton.style.display =
         "block";
 
-
-    if (currentQuestion === quizQuestions.length - 1) {
-
-        nextButton.textContent =
-            "Lihat Hasil";
-
-    } else {
-
-        nextButton.textContent =
-            "Pertanyaan Berikutnya";
-
-    }
-
 }
 
 
-// ==================== NEXT QUESTION ====================
+// ==================== NEXT BUTTON ====================
 
-if (nextButton) {
+if(nextButton){
 
     nextButton.addEventListener("click", () => {
 
-        if (!answerSelected) {
+        if(!answerSelected){
+
             return;
+
         }
 
 
-        currentQuestion++;
+        if(showingResult){
+
+            restartQuiz();
+
+            return;
+
+        }
 
 
-        if (currentQuestion < quizQuestions.length) {
+        if(currentQuestion < quizQuestions.length - 1){
+
+            currentQuestion++;
 
             loadQuestion();
 
-        } else {
-
-            showResult();
+            return;
 
         }
+
+
+        showResult();
 
     });
 
@@ -326,7 +341,10 @@ if (nextButton) {
 
 // ==================== SHOW RESULT ====================
 
-function showResult() {
+function showResult(){
+
+    showingResult = true;
+
 
     questionNumber.textContent =
         "Quiz Selesai!";
@@ -342,20 +360,23 @@ function showResult() {
     const resultMessage =
         document.createElement("p");
 
-    resultMessage.classList.add("quiz-result-message");
+
+    resultMessage.classList.add(
+        "quiz-result-message"
+    );
 
 
-    if (score === quizQuestions.length) {
+    if(score === quizQuestions.length){
 
         resultMessage.textContent =
             "Luar biasa! Kamu benar-benar mengenal Melasti.";
 
-    } else if (score >= 3) {
+    }else if(score >= 3){
 
         resultMessage.textContent =
             "Bagus! Kamu sudah cukup mengenal Melasti.";
 
-    } else {
+    }else{
 
         resultMessage.textContent =
             "Yuk pelajari lagi tentang Melasti dan coba kembali!";
@@ -363,7 +384,9 @@ function showResult() {
     }
 
 
-    optionsContainer.appendChild(resultMessage);
+    optionsContainer.appendChild(
+        resultMessage
+    );
 
 
     progressBar.style.width =
@@ -377,33 +400,12 @@ function showResult() {
     nextButton.style.display =
         "block";
 
-
-    answerSelected = true;
-
 }
 
 
 // ==================== RESTART QUIZ ====================
 
-if (nextButton) {
-
-    nextButton.addEventListener("click", () => {
-
-        if (
-            currentQuestion >= quizQuestions.length &&
-            answerSelected
-        ) {
-
-            restartQuiz();
-
-        }
-
-    });
-
-}
-
-
-function restartQuiz() {
+function restartQuiz(){
 
     currentQuestion = 0;
 
@@ -411,8 +413,8 @@ function restartQuiz() {
 
     answerSelected = false;
 
-    nextButton.textContent =
-        "Pertanyaan Berikutnya";
+    showingResult = false;
+
 
     loadQuestion();
 
