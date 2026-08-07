@@ -2121,3 +2121,98 @@ nav a:hover::after{
     }
 
 }
+
+/* ==================== CSS 9 : RESPONSIVE HERO ==================== */
+
+.hero{
+    min-height:100svh;
+}
+
+
+@media (max-width:1024px){
+
+    .hero{
+        background-position:60% center;
+    }
+
+}
+
+
+@media (max-width:768px){
+
+    .hero{
+        min-height:100svh;
+
+        height:auto;
+
+        background-position:62% center;
+
+        background-size:cover;
+    }
+
+
+    .hero-content{
+        width:90%;
+
+        max-width:500px;
+
+        padding:120px 20px 60px;
+
+        margin:0 auto;
+    }
+
+
+    .hero-content h1{
+        font-size:clamp(3rem,15vw,5rem);
+
+        line-height:.95;
+
+        letter-spacing:.04em;
+    }
+
+
+    .hero-content p{
+        max-width:330px;
+
+        margin-left:auto;
+        margin-right:auto;
+
+        font-size:.95rem;
+
+        line-height:1.6;
+    }
+
+
+    .primary-button{
+        padding:15px 28px;
+
+        font-size:.95rem;
+    }
+
+}
+
+
+@media (max-width:480px){
+
+    .hero-content{
+        padding:110px 15px 50px;
+    }
+
+
+    .hero-content h1{
+        font-size:clamp(2.7rem,16vw,4rem);
+    }
+
+
+    .hero-content p{
+        font-size:.85rem;
+    }
+
+
+    .primary-button{
+        padding:14px 25px;
+
+        font-size:.9rem;
+    }
+
+}
