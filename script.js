@@ -179,6 +179,116 @@ const quizQuestions = [
             "Menghindari lingkungan sekitar"
         ],
         answer: 0
+    },
+
+    {
+        question: "Apa yang dimaksud dengan Melasti?",
+        options: [
+            "Upacara penyucian diri dan alam",
+            "Upacara pernikahan",
+            "Upacara panen",
+            "Upacara kelahiran"
+        ],
+        answer: 0
+    },
+
+    {
+        question: "Kapan Upacara Melasti umumnya dilakukan?",
+        options: [
+            "Beberapa hari menjelang Nyepi",
+            "Setelah Hari Raya Nyepi",
+            "Setiap akhir tahun",
+            "Saat musim panen"
+        ],
+        answer: 0
+    },
+
+    {
+        question: "Mengapa laut atau sumber air memiliki peran penting dalam Melasti?",
+        options: [
+        "Sebagai tempat rekreasi",
+        "Sebagai tempat penyucian",
+        "Sebagai tempat berdagang",
+        "Sebagai tempat perlombaan"
+        ],
+        answer: 1
+    },
+
+    {
+        question: "Apa yang dilakukan umat saat mengikuti prosesi Melasti?",
+        options: [
+            "Mengikuti perjalanan menuju sumber air",
+            "Mengadakan pertandingan",
+            "Membuat perlombaan",
+            "Pergi berbelanja"
+        ],
+        answer: 0
+    },
+
+    {
+        question: "Melasti mengajarkan manusia untuk menjaga hubungan yang harmonis dengan...",
+        options: [
+            "Alam dan lingkungan",
+            "Perdagangan",
+            "Teknologi",
+            "Transportasi"
+        ],
+        answer: 0
+    },
+
+    {
+        question: "Salah satu makna air dalam Upacara Melasti adalah sebagai simbol...",
+        options: [
+            "Penyucian",
+            "Kekayaan",
+            "Persaingan",
+            "Kekuatan fisik"
+        ],
+        answer: 0
+    },
+
+    {
+        question: "Apa yang menjadi salah satu tujuan spiritual dari Melasti?",
+        options: [
+            "Membersihkan diri dari hal-hal negatif",
+            "Mendapatkan hadiah",
+            "Memenangkan perlombaan",
+            "Mengumpulkan makanan"
+        ],
+        answer: 0
+        },
+
+    {
+        question: "Mengapa masyarakat biasanya mengikuti Melasti secara bersama-sama?",
+        options: [
+            "Untuk memperkuat kebersamaan dan keharmonisan",
+            "Untuk menentukan pemenang",
+            "Untuk mencari pekerjaan",
+            "Untuk melakukan perdagangan"
+        ],
+        answer: 0
+    },
+
+    {
+        question: "Selain penyucian diri, Melasti juga berkaitan dengan penyucian...",
+        options: [
+            "Alam semesta",
+            "Kendaraan",
+            "Bangunan sekolah",
+            "Peralatan olahraga"
+        ],
+        answer: 0
+    },
+
+    {
+        question: "Sikap apa yang sebaiknya ditunjukkan saat mengikuti Upacara Melasti?",
+        options: [
+            "Menghormati prosesi dan menjaga lingkungan",
+            "Bermain-main selama upacara",
+            "Membuang sampah sembarangan",
+            "Mengganggu peserta lain"
+        ],
+        answer: 0
     }
 
 ];
