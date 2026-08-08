@@ -240,7 +240,6 @@ nav a:hover::after{
     position:relative;
 
     min-height:100svh;
-    min-height:100vh;
 
     display:flex;
 
@@ -253,8 +252,6 @@ nav a:hover::after{
     overflow:hidden;
 
     background:url("Assets/images/mainImage.jpeg") center center/cover no-repeat;
-
-    background-position:center center;
 
 }
 
@@ -2213,6 +2210,147 @@ nav a:hover::after{
         padding:14px 25px;
 
         font-size:.9rem;
+    }
+
+}
+
+/* ==================== CSS 10 : MOBILE NAVBAR ==================== */
+
+.menu-toggle{
+
+    display:none;
+
+    width:44px;
+    height:44px;
+
+    padding:0;
+
+    border:1px solid var(--border);
+
+    border-radius:14px;
+
+    background:rgba(255,255,255,.06);
+
+    align-items:center;
+    justify-content:center;
+
+    flex-direction:column;
+
+    gap:5px;
+
+    cursor:pointer;
+
+    transition:var(--transition);
+
+}
+
+
+.menu-toggle span{
+
+    width:20px;
+    height:2px;
+
+    border-radius:999px;
+
+    background:var(--white);
+
+    transition:var(--transition);
+
+}
+
+
+.menu-toggle:hover{
+
+    border-color:var(--primary);
+
+    background:rgba(92,200,232,.1);
+
+}
+
+
+@media (max-width:768px){
+
+    .navbar-container{
+
+        position:relative;
+
+        height:68px;
+
+    }
+
+
+    .nav-links{
+
+        display:none;
+
+        position:absolute;
+
+        top:calc(100% + 12px);
+
+        left:0;
+        right:0;
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+        gap:4px;
+
+        padding:12px;
+
+        border:1px solid rgba(255,255,255,.1);
+
+        border-radius:20px;
+
+        background:rgba(0,25,33,.94);
+
+        backdrop-filter:blur(20px);
+
+        -webkit-backdrop-filter:blur(20px);
+
+        box-shadow:0 20px 50px rgba(0,0,0,.35);
+
+        z-index:1000;
+
+    }
+
+
+    .nav-links.active{
+
+        display:flex;
+
+    }
+
+
+    .nav-links a{
+
+        padding:14px 16px;
+
+        border-radius:12px;
+
+        font-size:.95rem;
+
+    }
+
+
+    .nav-links a:hover{
+
+        background:rgba(92,200,232,.1);
+
+    }
+
+
+    .language-switch{
+
+        display:none;
+
+    }
+
+
+    .menu-toggle{
+
+        display:flex;
+
     }
 
 }
