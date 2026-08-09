@@ -1,3 +1,10 @@
+// ==================== Refresh Bug Fix ====================
+window.history.scrollRestoration = "manual";
+
+window.addEventListener("load", () => {
+    window.scrollTo(0, 0);
+});
+
 // ==================== NAVBAR SCROLL ====================
 
 const header = document.querySelector("header");
@@ -665,13 +672,13 @@ function checkFillBlank() {
 
         score++;
 
-        fillFeedback.textContent =
-            "Benar! Melasti dilaksanakan menjelang Hari Raya Nyepi.";
+        fillFeedback.innerHTML =
+            "Benar! Melasti dilaksanakan menjelang Hari Raya <u>Nyepi</u>.";
 
     } else {
 
-        fillFeedback.textContent =
-            "Belum tepat. Jawaban yang benar adalah Hari Raya Nyepi.";
+        fillFeedback.innerHTML =
+            "Belum tepat. Jawaban yang benar adalah Hari Raya <u>Nyepi</u>.";
 
     }
 
@@ -878,5 +885,113 @@ if (backToTop) {
         });
 
     });
+
+}
+
+// ==================== SCROLL REVEAL ====================
+
+const revealElements =
+    document.querySelectorAll(
+        ".reveal, .reveal-left, .reveal-right, .reveal-scale"
+    );
+
+let lastScrollY = window.scrollY;
+let isScrollingDown = true;
+
+window.addEventListener("scroll", () => {
+
+    const currentScrollY = window.scrollY;
+
+    isScrollingDown =
+        currentScrollY > lastScrollY;
+
+    lastScrollY = currentScrollY;
+
+}, { passive: true });
+
+
+const revealObserver =
+    new IntersectionObserver(
+        entries => {
+
+            entries.forEach(entry => {
+
+                // ==========================
+                // SCROLLING DOWN
+                // ==========================
+
+                if (isScrollingDown) {
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.classList.add("show");
+
+                    } else if (
+                        entry.boundingClientRect.top >
+                        window.innerHeight
+                    ) {
+
+                        // Element is below the screen.
+                        // Remove .show so it can animate
+                        // again when we reach it later.
+
+                        entry.target.classList.remove("show");
+
+                    }
+
+                }
+
+                // ==========================
+                // SCROLLING UP
+                // ==========================
+
+                else {
+
+                    // Keep everything visible.
+                    // No animation when scrolling upward.
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.classList.add("show");
+
+                    }
+
+                }
+
+            });
+
+        },
+        {
+            threshold: 0.15
+        }
+    );
+
+
+revealElements.forEach(element => {
+
+    revealObserver.observe(element);
+
+});
+
+// ==================== HERO PARALLAX ====================
+
+const hero = document.querySelector(".hero");
+const heroBackground =
+    document.querySelector(".hero-parallax-bg");
+
+if (hero && heroBackground) {
+
+    window.addEventListener("scroll", () => {
+
+        const scrollY = window.scrollY;
+
+        if (scrollY <= window.innerHeight) {
+
+            heroBackground.style.transform =
+                `translate3d(0, ${scrollY * 0.35}px, 0) scale(1.08)`;
+
+        }
+
+    }, { passive: true });
 
 }
