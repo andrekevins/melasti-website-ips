@@ -251,7 +251,7 @@ nav a:hover::after{
 
     overflow:hidden;
 
-background:url("Assets/images/mainImage.jpeg") center center/cover no-repeat;
+background:url("Assets/images/mainImage.jpg") center center/cover no-repeat;
 
 }
 
