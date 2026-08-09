@@ -293,37 +293,69 @@ const quizQuestions = [
 
 ];
 
-
-// ==================== QUIZ VARIABLES ====================
+// ==================== NEW QUIZ SYSTEM ====================
 
 let currentQuestion = 0;
 let score = 0;
 let selectedQuestions = [];
-let usedQuestions = [];
 let selectedAnswer = null;
 let answerConfirmed = false;
-let showingResult = false;
 
+const quizMultipleChoice =
+document.querySelector(".quiz-multiple-choice");
 
-// ==================== QUIZ ELEMENTS ====================
+const quizFillBlank =
+document.querySelector(".quiz-fill-blank");
+
+const quizReflection =
+document.querySelector(".quiz-reflection");
+
+const quizFinalResult =
+document.querySelector(".quiz-final-result");
 
 const questionNumber =
-    document.querySelector(".quiz-question-number");
+document.querySelector(".quiz-question-number");
 
 const questionText =
-    document.querySelector(".quiz-question h3");
+document.querySelector(".quiz-question h3");
 
 const optionsContainer =
-    document.querySelector(".quiz-options");
+document.querySelector(".quiz-options");
 
 const nextButton =
-    document.querySelector(".quiz-next");
+document.querySelector(".quiz-next");
 
 const progressBar =
-    document.querySelector(".quiz-progress-bar");
+document.querySelector(".quiz-progress-bar");
 
+const fillAnswer =
+document.querySelector(".fill-answer");
 
-// ==================== SHUFFLE ====================
+const fillSubmit =
+document.querySelector(".fill-submit");
+
+const fillFeedback =
+document.querySelector(".fill-feedback");
+
+const reflectionAnswer =
+document.querySelector(".reflection-answer");
+
+const reflectionSubmit =
+document.querySelector(".reflection-submit");
+
+const reflectionFeedback =
+document.querySelector(".reflection-feedback");
+
+const quizScore =
+document.querySelector(".quiz-score");
+
+const quizResultMessage =
+document.querySelector(".quiz-final-result .quiz-result-message");
+
+const quizRestart =
+document.querySelector(".quiz-restart");
+
+// ==================== QUIZ FUNCTIONS ====================
 
 function shuffleArray(array) {
 
@@ -331,8 +363,7 @@ function shuffleArray(array) {
 
     for (let i = shuffled.length - 1; i > 0; i--) {
 
-        const j =
-            Math.floor(Math.random() * (i + 1));
+        const j = Math.floor(Math.random() * (i + 1));
 
         [shuffled[i], shuffled[j]] =
             [shuffled[j], shuffled[i]];
@@ -344,72 +375,11 @@ function shuffleArray(array) {
 }
 
 
-// ==================== CREATE QUIZ ====================
+function startQuiz() {
 
-function createQuiz() {
-
-    let availableQuestions =
-        quizQuestions.filter(
-            (question, index) =>
-                !usedQuestions.includes(index)
-        );
-
-
-    // Kalau soal yang tersisa kurang dari 5,
-    // mulai kembali dari awal
-    if (availableQuestions.length < 5) {
-
-        usedQuestions = [];
-
-        availableQuestions = [...quizQuestions];
-
+    if (!quizMultipleChoice) {
+        return;
     }
-
-
-    const questionPool =
-        availableQuestions.map(question => ({
-            question: question,
-            index: quizQuestions.indexOf(question)
-        }));
-
-
-    const selected =
-        shuffleArray(questionPool)
-            .slice(0, 5);
-
-
-    selectedQuestions =
-        selected.map(item => {
-
-            usedQuestions.push(item.index);
-
-
-            const question =
-                item.question;
-
-
-            const shuffledOptions =
-                question.options.map((option, index) => ({
-
-                    text: option,
-
-                    correct:
-                        index === question.answer
-
-                }));
-
-
-            return {
-
-                question: question.question,
-
-                options:
-                    shuffleArray(shuffledOptions)
-
-            };
-
-        });
-
 
     currentQuestion = 0;
 
@@ -419,31 +389,53 @@ function createQuiz() {
 
     answerConfirmed = false;
 
-    showingResult = false;
+
+    selectedQuestions =
+        shuffleArray(quizQuestions).slice(0, 5).map(question => {
+
+            const options =
+                question.options.map((option, index) => ({
+
+                    text: option,
+
+                    correct: index === question.answer
+
+                }));
+
+
+            return {
+
+                question: question.question,
+
+                options: shuffleArray(options)
+
+            };
+
+        });
+
+
+    quizMultipleChoice.hidden = false;
+
+    quizFillBlank.hidden = true;
+
+    quizReflection.hidden = true;
+
+    quizFinalResult.hidden = true;
+
+
+    loadQuestion();
 
 }
 
 
-// ==================== LOAD QUESTION ====================
-
 function loadQuestion() {
-
-    if (
-        !questionNumber ||
-        !questionText ||
-        !optionsContainer ||
-        !nextButton ||
-        !progressBar
-    ) {
-        return;
-    }
-
 
     const question =
         selectedQuestions[currentQuestion];
 
 
     selectedAnswer = null;
+
     answerConfirmed = false;
 
 
@@ -464,9 +456,9 @@ function loadQuestion() {
             document.createElement("button");
 
 
-        button.classList.add("quiz-option");
-
         button.type = "button";
+
+        button.classList.add("quiz-option");
 
         button.textContent =
             option.text;
@@ -491,6 +483,7 @@ function loadQuestion() {
     nextButton.style.display =
         "none";
 
+
     nextButton.textContent =
         currentQuestion === 4
             ? "Lihat Hasil"
@@ -498,8 +491,6 @@ function loadQuestion() {
 
 }
 
-
-// ==================== SELECT ANSWER ====================
 
 function selectAnswer(index) {
 
@@ -519,6 +510,7 @@ function selectAnswer(index) {
 
         button.classList.remove("selected");
 
+
         if (buttonIndex === index) {
 
             button.classList.add("selected");
@@ -537,8 +529,6 @@ function selectAnswer(index) {
 
 }
 
-
-// ==================== CONFIRM ANSWER ====================
 
 function confirmAnswer() {
 
@@ -600,125 +590,229 @@ function confirmAnswer() {
 
     nextButton.textContent =
         currentQuestion === 4
-            ? "Lihat Hasil"
+            ? "Lanjut ke Isian"
             : "Pertanyaan Berikutnya";
 
 }
 
 
-// ==================== NEXT BUTTON ====================
+function nextQuestion() {
 
-if (nextButton) {
+    if (!answerConfirmed) {
 
-    nextButton.addEventListener("click", () => {
+        confirmAnswer();
 
-        if (showingResult) {
-
-            createQuiz();
-
-            loadQuestion();
-
-            return;
-
-        }
-
-
-        if (!answerConfirmed) {
-
-            confirmAnswer();
-
-            return;
-
-        }
-
-
-        if (currentQuestion < 4) {
-
-            currentQuestion++;
-
-            loadQuestion();
-
-            return;
-
-        }
-
-
-        showResult();
-
-    });
-
-}
-
-
-// ==================== SHOW RESULT ====================
-
-function showResult() {
-
-    showingResult = true;
-
-
-    questionNumber.textContent =
-        "Quiz Selesai!";
-
-
-    questionText.textContent =
-        `Kamu mendapatkan ${score} dari 5 jawaban benar.`;
-
-
-    optionsContainer.innerHTML = "";
-
-
-    const resultMessage =
-        document.createElement("p");
-
-
-    resultMessage.classList.add(
-        "quiz-result-message"
-    );
-
-
-    if (score === 5) {
-
-        resultMessage.textContent =
-            "Luar biasa! Kamu benar-benar mengenal Melasti.";
-
-    } else if (score >= 3) {
-
-        resultMessage.textContent =
-            "Bagus! Kamu sudah cukup mengenal Melasti.";
-
-    } else {
-
-        resultMessage.textContent =
-            "Yuk pelajari lagi tentang Melasti dan coba kembali!";
+        return;
 
     }
 
 
-    optionsContainer.appendChild(
-        resultMessage
-    );
+    if (currentQuestion < 4) {
+
+        currentQuestion++;
+
+        loadQuestion();
+
+        return;
+
+    }
 
 
-    progressBar.style.width =
-        "100%";
-
-
-    nextButton.textContent =
-        "Coba Lagi";
-
-
-    nextButton.style.display =
-        "block";
+    showFillBlank();
 
 }
 
 
-// ==================== START QUIZ ====================
+function showFillBlank() {
 
-createQuiz();
+    quizMultipleChoice.hidden = true;
 
-loadQuestion();
+    quizFillBlank.hidden = false;
+
+    quizReflection.hidden = true;
+
+    quizFinalResult.hidden = true;
+
+
+    fillAnswer.value = "";
+
+    fillFeedback.textContent = "";
+
+}
+
+// ==================== FILL IN THE BLANK ====================
+
+function checkFillBlank() {
+
+    const answer =
+        fillAnswer.value.trim().toLowerCase();
+
+
+    if (!answer) {
+
+        fillFeedback.textContent =
+            "Silakan isi jawaban terlebih dahulu.";
+
+        return;
+
+    }
+
+
+    if (
+        answer === "nyepi" ||
+        answer === "hari raya nyepi"
+    ) {
+
+        score++;
+
+        fillFeedback.textContent =
+            "Benar! Melasti dilaksanakan menjelang Hari Raya Nyepi.";
+
+    } else {
+
+        fillFeedback.textContent =
+            "Belum tepat. Jawaban yang benar adalah Hari Raya Nyepi.";
+
+    }
+
+
+    fillSubmit.disabled = true;
+
+
+    setTimeout(() => {
+
+        showReflection();
+
+    }, 1200);
+
+}
+
+
+function showReflection() {
+
+    quizMultipleChoice.hidden = true;
+
+    quizFillBlank.hidden = true;
+
+    quizReflection.hidden = false;
+
+    quizFinalResult.hidden = true;
+
+
+    reflectionAnswer.value = "";
+
+    reflectionFeedback.textContent = "";
+
+}
+
+// ==================== REFLECTION ====================
+
+function submitReflection() {
+
+    const answer =
+        reflectionAnswer.value.trim();
+
+
+    if (!answer) {
+
+        reflectionFeedback.textContent =
+            "Silakan tuliskan jawabanmu terlebih dahulu.";
+
+        return;
+
+    }
+
+
+    reflectionFeedback.textContent =
+        "Jawabanmu sudah dicatat. Terima kasih sudah berbagi pendapat!";
+
+
+    reflectionSubmit.disabled = true;
+
+
+    setTimeout(() => {
+
+        showFinalResult();
+
+    }, 1200);
+
+}
+
+// ==================== FINAL RESULT ====================
+
+function showFinalResult() {
+
+    quizMultipleChoice.hidden = true;
+
+    quizFillBlank.hidden = true;
+
+    quizReflection.hidden = true;
+
+    quizFinalResult.hidden = false;
+
+
+    quizScore.textContent =
+        `${score} / 6`;
+
+
+    if (score === 6) {
+
+        quizResultMessage.textContent =
+            "Luar biasa! Kamu benar-benar memahami Melasti.";
+
+    } else if (score >= 4) {
+
+        quizResultMessage.textContent =
+            "Bagus! Kamu sudah cukup memahami Melasti.";
+
+    } else {
+
+        quizResultMessage.textContent =
+            "Masih bisa ditingkatkan! Coba baca kembali materi Melasti.";
+
+    }
+
+}
+
+// ==================== QUIZ EVENT LISTENERS ====================
+
+if (quizMultipleChoice) {
+
+    nextButton.addEventListener("click", () => {
+
+        nextQuestion();
+
+    });
+
+
+    fillSubmit.addEventListener("click", () => {
+
+        checkFillBlank();
+
+    });
+
+
+    reflectionSubmit.addEventListener("click", () => {
+
+        submitReflection();
+
+    });
+
+
+    quizRestart.addEventListener("click", () => {
+
+        fillSubmit.disabled = false;
+
+        reflectionSubmit.disabled = false;
+
+        startQuiz();
+
+    });
+
+
+    startQuiz();
+
+}
 
 /* ==================== MOBILE NAVIGATION ==================== */
 
@@ -743,6 +837,43 @@ if(menuToggle && navLinks){
         link.addEventListener("click", () => {
 
             navLinks.classList.remove("active");
+
+        });
+
+    });
+
+}
+
+// ==================== BACK TO TOP ====================
+
+const backToTop =
+    document.querySelector(".back-to-top");
+
+
+if (backToTop) {
+
+    window.addEventListener("scroll", () => {
+
+        if (window.scrollY > 500) {
+
+            backToTop.classList.add("visible");
+
+        } else {
+
+            backToTop.classList.remove("visible");
+
+        }
+
+    });
+
+
+    backToTop.addEventListener("click", () => {
+
+        window.scrollTo({
+
+            top:0,
+
+            behavior:"smooth"
 
         });
 
