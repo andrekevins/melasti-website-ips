@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Melasti | Quiz</title>
+
+    <link rel="icon" href="favicon.ico">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+    <main class="quiz-page">
+
+        <a href="index.html" class="quiz-back">
+            ← Kembali ke Melasti
+        </a>
+
+
+        <div class="container quiz-page-container">
+
+
+            <!-- ==================== QUIZ INTRO ==================== -->
+
+            <div class="section-heading quiz-page-heading">
+
+                <p class="section-label">
+                    UJI PENGETAHUANMU
+                </p>
+
+                <h1>
+                    Seberapa Jauh Kamu Mengenal Melasti?
+                </h1>
+
+                <p class="quiz-introduction">
+                    Kami menyarankan kamu membaca seluruh isi website
+                    terlebih dahulu agar dapat menjawab pertanyaan
+                    dengan lebih baik.
+                </p>
+
+            </div>
+
+
+            <!-- ==================== MULTIPLE CHOICE ==================== -->
+
+            <section class="quiz-box quiz-multiple-choice">
+
+                <div class="quiz-box-heading">
+
+                    <p class="section-label">
+                        PILIHAN GANDA
+                    </p>
+
+                    <h2>
+                        Uji Pengetahuanmu
+                    </h2>
+
+                </div>
+
+
+                <div class="quiz-progress">
+
+                    <div class="quiz-progress-bar"></div>
+
+                </div>
+
+
+                <p class="quiz-question-number">
+                    Pertanyaan 1 dari 5
+                </p>
+
+
+                <div class="quiz-question">
+
+                    <h3>
+                        Di mana Upacara Melasti biasanya dilaksanakan?
+                    </h3>
+
+                </div>
+
+
+                <div class="quiz-options">
+
+                    <button class="quiz-option">
+                        Di gunung
+                    </button>
+
+                    <button class="quiz-option">
+                        Di laut atau sumber air
+                    </button>
+
+                    <button class="quiz-option">
+                        Di dalam rumah
+                    </button>
+
+                    <button class="quiz-option">
+                        Di sawah
+                    </button>
+
+                </div>
+
+
+                <button class="quiz-next">
+                    Pertanyaan Berikutnya
+                </button>
+
+
+                <p class="quiz-result-message"></p>
+
+            </section>
+
+
+            <!-- ==================== FILL IN THE BLANK ==================== -->
+
+            <section class="quiz-box quiz-fill-blank" hidden>
+
+                <div class="quiz-box-heading">
+
+                    <p class="section-label">
+                        ISI BAGIAN YANG KOSONG
+                    </p>
+
+                    <h2>
+                        Lengkapi Kalimat
+                    </h2>
+
+                </div>
+
+
+                <div class="fill-question">
+
+                    <h3>
+                        Melasti dilaksanakan beberapa hari sebelum
+                        Hari Raya ________.
+                    </h3>
+
+                </div>
+
+
+                <input
+                    type="text"
+                    class="fill-answer"
+                    placeholder="Ketik jawabanmu..."
+                    autocomplete="off"
+                >
+
+
+                <button class="fill-submit">
+                    Periksa Jawaban
+                </button>
+
+
+                <p class="fill-feedback"></p>
+
+            </section>
+
+
+            <!-- ==================== REFLECTION ==================== -->
+
+            <section class="quiz-box quiz-reflection" hidden>
+
+                <div class="quiz-box-heading">
+
+                    <p class="section-label">
+                        REFLEKSI
+                    </p>
+
+                    <h2>
+                        Bagikan Pendapatmu
+                    </h2>
+
+                </div>
+
+
+                <div class="reflection-question">
+
+                    <h3>
+                        Menurutmu, apa makna Upacara Melasti
+                        bagi umat Hindu?
+                    </h3>
+
+                    <p>
+                        Tidak ada jawaban benar atau salah.
+                        Tuliskan apa yang kamu pahami dengan bahasamu sendiri.
+                    </p>
+
+                </div>
+
+
+                <textarea
+                    class="reflection-answer"
+                    placeholder="Tuliskan jawabanmu..."
+                    rows="6"
+                ></textarea>
+
+
+                <button class="reflection-submit">
+                    Kirim Jawaban
+                </button>
+
+
+                <p class="reflection-feedback"></p>
+
+            </section>
+
+
+            <!-- ==================== FINAL RESULT ==================== -->
+
+            <section class="quiz-box quiz-final-result" hidden>
+
+                <p class="section-label">
+                    KUIS SELESAI
+                </p>
+
+                <h2>
+                    Hebat!
+                </h2>
+
+
+                <div class="quiz-score">
+                    0 / 5
+                </div>
+
+
+                <p class="quiz-result-message">
+                    Terima kasih sudah mengikuti kuis tentang Melasti.
+                </p>
+
+
+                <div class="quiz-result-actions">
+
+                    <a
+                        href="index.html"
+                        class="primary-button"
+                    >
+                        Kembali ke Website
+                    </a>
+
+
+                    <button class="quiz-restart">
+                        Coba Lagi
+                    </button>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
