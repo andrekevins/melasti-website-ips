@@ -931,20 +931,20 @@ const hero = document.querySelector(".hero");
 const heroBackground =
     document.querySelector(".hero-parallax-bg");
 
-if (hero && heroBackground) {
+// ==================== HERO PARALLAX ====================
+
+const heroParallax =
+    document.querySelector(".hero-parallax");
+
+if (heroParallax) {
 
     window.addEventListener("scroll", () => {
 
         const scrollY = window.scrollY;
 
-        if (scrollY <= window.innerHeight) {
+        heroParallax.style.transform =
+            `translate3d(0, ${scrollY * 0.35}px, 0)`;
 
-            heroBackground.style.transform =
-                `translate3d(0, ${scrollY * 0.35}px, 0) scale(1.08)`;
-
-        }
-
-    }, { passive: true });
+    }, { passive:true });
 
 }
-
