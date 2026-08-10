@@ -891,81 +891,33 @@ if (backToTop) {
 // ==================== SCROLL REVEAL ====================
 
 const revealElements =
-    document.querySelectorAll(
-        ".reveal, .reveal-left, .reveal-right, .reveal-scale"
-    );
-
-let lastScrollY = window.scrollY;
-let isScrollingDown = true;
-
-window.addEventListener("scroll", () => {
-
-    const currentScrollY = window.scrollY;
-
-    isScrollingDown =
-        currentScrollY > lastScrollY;
-
-    lastScrollY = currentScrollY;
-
-}, { passive: true });
-
+document.querySelectorAll(
+    ".reveal, .reveal-left, .reveal-right, .reveal-scale"
+);
 
 const revealObserver =
-    new IntersectionObserver(
-        entries => {
+new IntersectionObserver(
+    entries => {
 
-            entries.forEach(entry => {
+        entries.forEach(entry => {
 
-                // ==========================
-                // SCROLLING DOWN
-                // ==========================
+            if (entry.isIntersecting) {
 
-                if (isScrollingDown) {
+                entry.target.classList.add("show");
 
-                    if (entry.isIntersecting) {
+                revealObserver.unobserve(
+                    entry.target
+                );
 
-                        entry.target.classList.add("show");
+            }
 
-                    } else if (
-                        entry.boundingClientRect.top >
-                        window.innerHeight
-                    ) {
+        });
 
-                        // Element is below the screen.
-                        // Remove .show so it can animate
-                        // again when we reach it later.
-
-                        entry.target.classList.remove("show");
-
-                    }
-
-                }
-
-                // ==========================
-                // SCROLLING UP
-                // ==========================
-
-                else {
-
-                    // Keep everything visible.
-                    // No animation when scrolling upward.
-
-                    if (entry.isIntersecting) {
-
-                        entry.target.classList.add("show");
-
-                    }
-
-                }
-
-            });
-
-        },
-        {
-            threshold: 0.15
-        }
-    );
-
+    },
+    {
+        threshold: 0.15
+    }
+);
 
 revealElements.forEach(element => {
 
@@ -995,3 +947,4 @@ if (hero && heroBackground) {
     }, { passive: true });
 
 }
+
