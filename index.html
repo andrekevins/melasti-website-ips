@@ -80,7 +80,13 @@
 
             <button class="active">ID</button>
 
-            <button>EN</button>
+            <button
+                type="button"
+                id="englishButton"
+                onclick="document.getElementById('languageComingSoon').classList.add('active')"
+            >
+                EN
+            </button>
 
         </div>
 
@@ -225,7 +231,7 @@
 
         <div class="split-image reveal-right">
 
-            <img src="Assets/images/tujuanMelasti.jpg" alt="Tujuan Melasti">
+            <img src="Assets/images/Cool.jpg" alt="Tujuan Melasti">
 
         </div>
 
@@ -444,7 +450,7 @@
         <div class="section-heading reveal">
 
             <p class="section-label">
-                GAMBAR MELASTI
+                MELASTI
             </p>
 
             <h2>
@@ -458,14 +464,14 @@
             <div class="moment-card moment-large reveal-scale">
 
                 <img
-                    src="Assets/images/kataPengantar.jpg"
-                    alt="Prosesi Upacara Melasti"
+                    src="Assets/images/Idk2.jpeg"
+                    alt="Proses Upacara Melasti"
                 >
 
                 <div class="moment-overlay">
 
                     <h3>
-                        Prosesi Melasti
+                        Proses Melasti
                     </h3>
 
                     <p>
@@ -479,7 +485,7 @@
             <div class="moment-card reveal">
 
                 <img
-                    src="Assets/images/apaItuMelasti.jpg"
+                    src="Assets/images/makna.jpg"
                     alt="Upacara Melasti"
                 >
 
@@ -500,7 +506,7 @@
             <div class="moment-card reveal-scale">
 
                 <img
-                    src="Assets/images/tujuanMelasti.jpg"
+                    src="Assets/images/Smth.jpg"
                     alt="Tujuan Upacara Melasti"
                 >
 
@@ -521,7 +527,7 @@
             <div class="moment-card moment-wide">
 
                 <img
-                    src="Assets/images/mainImage.jpg"
+                    src="Assets/images/Idk.jpg"
                     alt="Suasana Upacara Melasti"
                 >
 
@@ -568,7 +574,7 @@
                 <div class="team-image">
 
                     <img
-                        src="Assets/images/team1.jpg"
+                        src="Assets/images/Andre.jpeg"
                         alt="Andre IMG"
                     >
 
@@ -594,7 +600,7 @@
                 <div class="team-image">
 
                     <img
-                        src="Assets/images/team2.jpg"
+                        src="Assets/images/Ethan.jpeg"
                         alt="Ethan IMG"
                     >
 
@@ -620,7 +626,7 @@
                 <div class="team-image">
 
                     <img
-                        src="Assets/images/team3.jpg"
+                        src="Assets/images/Isaac.jpeg"
                         alt="Isaac IMG"
                     >
 
@@ -646,7 +652,7 @@
                 <div class="team-image">
 
                     <img
-                        src="Assets/images/team4.jpg"
+                        src="Assets/images/Maxi.jpeg"
                         alt="Maxi IMG"
                     >
 
@@ -672,7 +678,7 @@
                 <div class="team-image">
 
                     <img
-                        src="Assets/images/team5.jpg"
+                        src="Assets/images/Leonel.jpeg"
                         alt="Leonel IMG"
                     >
 
@@ -698,7 +704,7 @@
                 <div class="team-image">
 
                     <img
-                        src="Assets/images/team6.jpg"
+                        src="Assets/images/Austin.jpeg"
                         alt="Austin IMG"
                     >
 
@@ -800,6 +806,38 @@
 </button>
 
 <script src="script.js"></script>
+
+<div class="language-coming-soon" id="languageComingSoon">
+
+    <div class="language-coming-content">
+
+        <span class="language-coming-line"></span>
+
+        <p class="language-coming-small">
+            LANGUAGE
+        </p>
+
+        <h2>
+            English Version
+        </h2>
+
+        <p class="language-coming-message">
+            Sorry, we don't have this yet.
+            <br>
+            Coming soon.
+        </p>
+
+        <button
+            type="button"
+            id="closeLanguageComing"
+            onclick="document.getElementById('languageComingSoon').classList.remove('active')"
+        >
+            Kembali
+        </button>
+
+    </div>
+
+</div>
 
 </body>
 
