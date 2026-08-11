@@ -4521,7 +4521,7 @@ nav a:hover::after{
 
     transform:scaleX(0);
 
-    transform-origin:right;
+    transform-origin:left;
 
     background:rgba(92,200,232,.4);
 
@@ -4589,7 +4589,7 @@ nav a:hover::after{
 
 /* FLASH AT LEFT */
 
-.page-transition::after{
+.page-transition-line::after{
 
     content:"";
 
@@ -4597,34 +4597,24 @@ nav a:hover::after{
 
     top:50%;
 
-    left:0;
+    left:-60px;
 
-    width:10px;
+    width:60px;
 
-    height:10px;
+    height:100%;
 
-    border-radius:50%;
+    transform:translateY(-50%);
 
-    background:white;
+    background:linear-gradient(
+        270deg,
+        var(--primary),
+        rgba(255,255,255,.95),
+        transparent
+    );
 
-    transform:
-        translate(-50%,-50%)
-        scale(0);
-
-    box-shadow:
-        0 0 10px white,
-        0 0 25px var(--primary),
-        0 0 60px var(--primary);
-
-}
-
-
-.page-transition.active::after{
-
-    animation:
-        outroFlash
-        .25s ease-out
-        .48s forwards;
+    filter:
+        drop-shadow(0 0 6px var(--primary))
+        drop-shadow(0 0 18px var(--primary));
 
 }
 
