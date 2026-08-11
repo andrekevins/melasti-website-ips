@@ -2731,30 +2731,17 @@ nav a:hover::after{
 
         display:flex;
 
-        margin-left:0;
+        margin-left:auto;
 
-        gap:4px;
+        gap:2px;
 
         padding:3px;
 
-        position:relative;
-
-        z-index:1100;
-
     }
-
 
     .language-switch button{
 
-        display:flex;
-
-        align-items:center;
-
-        justify-content:center;
-
-        min-width:42px;
-
-        padding:8px 10px;
+        padding:7px 10px;
 
         font-size:.75rem;
 
@@ -4424,17 +4411,276 @@ nav a:hover::after{
 
 }
 
-@keyframes openingFlashGlow{
+.language-switch{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:4px;
+
+    padding:4px;
+
+    margin-left:auto;
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(18px);
+
+    -webkit-backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.12);
+
+}
+
+.language-switch button{
+
+    padding:7px 11px;
+
+    border:none;
+
+    border-radius:999px;
+
+    background:transparent;
+
+    color:rgba(255,255,255,.55);
+
+    font-family:"Poppins",sans-serif;
+
+    font-size:.8rem;
+
+    font-weight:500;
+
+    cursor:pointer;
+
+    transition:var(--transition);
+
+}
+
+.language-switch button.active{
+
+    background:var(--primary);
+
+    color:var(--background);
+
+    font-weight:600;
+
+    box-shadow:
+        0 0 12px rgba(92,200,232,.25);
+
+}
+
+.language-switch button:hover{
+
+    color:var(--white);
+
+}
+
+/* ==================== PAGE TRANSITION ==================== */
+
+.page-transition{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:99999;
+
+    pointer-events:none;
+
+    background:var(--background);
+
+    opacity:0;
+
+    visibility:hidden;
+
+}
+
+
+.page-transition.active{
+
+    opacity:1;
+
+    visibility:visible;
+
+}
+
+
+.page-transition-line{
+
+    position:absolute;
+
+    top:50%;
+
+    right:0;
+
+    width:100%;
+
+    height:2px;
+
+    transform:scaleX(0);
+
+    transform-origin:right;
+
+    background:rgba(92,200,232,.4);
+
+    box-shadow:
+        0 0 10px rgba(92,200,232,.3),
+        0 0 30px rgba(92,200,232,.15);
+
+}
+
+
+/* MOVING LIGHT */
+
+.page-transition-line::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:50%;
+
+    right:-60px;
+
+    width:60px;
+
+    height:100%;
+
+    transform:translateY(-50%);
+
+    background:linear-gradient(
+        90deg,
+        var(--primary),
+        rgba(255,255,255,.95),
+        transparent
+    );
+
+    filter:
+        drop-shadow(0 0 6px var(--primary))
+        drop-shadow(0 0 18px var(--primary));
+
+}
+
+
+/* ACTIVATE LINE + LIGHT */
+
+.page-transition.active .page-transition-line{
+
+    animation:
+        outroLine
+        .55s cubic-bezier(.65,0,.35,1)
+        forwards;
+
+}
+
+
+.page-transition.active
+.page-transition-line::after{
+
+    animation:
+        outroLight
+        .55s cubic-bezier(.65,0,.35,1)
+        forwards;
+
+}
+
+
+/* FLASH AT LEFT */
+
+.page-transition::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:50%;
+
+    left:0;
+
+    width:10px;
+
+    height:10px;
+
+    border-radius:50%;
+
+    background:white;
+
+    transform:
+        translate(-50%,-50%)
+        scale(0);
+
+    box-shadow:
+        0 0 10px white,
+        0 0 25px var(--primary),
+        0 0 60px var(--primary);
+
+}
+
+
+.page-transition.active::after{
+
+    animation:
+        outroFlash
+        .25s ease-out
+        .48s forwards;
+
+}
+
+
+/* ==================== ANIMATION ==================== */
+
+@keyframes outroLine{
 
     0%{
+        transform:scaleX(0);
+    }
+
+    100%{
+        transform:scaleX(1);
+    }
+
+}
+
+
+@keyframes outroLight{
+
+    0%{
+        right:-60px;
+    }
+
+    100%{
+        right:100%;
+    }
+
+}
+
+
+@keyframes outroFlash{
+
+    0%{
+        transform:
+            translate(-50%,-50%)
+            scale(0);
+
         opacity:0;
     }
 
     35%{
+        transform:
+            translate(-50%,-50%)
+            scale(3);
+
         opacity:1;
     }
 
     100%{
+        transform:
+            translate(-50%,-50%)
+            scale(0);
+
         opacity:0;
     }
 

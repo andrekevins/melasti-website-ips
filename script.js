@@ -5,6 +5,8 @@ window.addEventListener("load", () => {
     window.scrollTo(0, 0);
 });
 
+
+
 // ==================== NAVBAR SCROLL ====================
 
 const header = document.querySelector("header");
@@ -52,27 +54,6 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
     });
 
 });
-
-
-// ==================== LANGUAGE SWITCH ====================
-
-const languageButtons =
-    document.querySelectorAll(".language-switch button");
-
-languageButtons.forEach(button => {
-
-    button.addEventListener("click", () => {
-
-        languageButtons.forEach(btn => {
-            btn.classList.remove("active");
-        });
-
-        button.classList.add("active");
-
-    });
-
-});
-
 
 // ==================== QUIZ DATA ====================
 
@@ -948,3 +929,36 @@ if (heroParallax) {
     }, { passive:true });
 
 }
+
+// ==================== PAGE TRANSITION ====================
+
+const pageTransition =
+    document.querySelector(".page-transition");
+
+const pageLinks =
+    document.querySelectorAll(
+        ".page-transition-link"
+    );
+
+pageLinks.forEach(link => {
+
+    link.addEventListener("click", event => {
+
+        const target =
+            link.getAttribute("href");
+
+        if (!target || !pageTransition) return;
+
+        event.preventDefault();
+
+        pageTransition.classList.add("active");
+
+        setTimeout(() => {
+
+            window.location.href = target;
+
+        }, 550);
+
+    });
+
+});
