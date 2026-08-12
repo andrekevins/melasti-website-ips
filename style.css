@@ -1161,7 +1161,7 @@ nav a:hover::after{
 
 }
 
-.language-switch button{
+.language-switch a{
 
     padding:8px 14px;
 
@@ -1183,13 +1183,13 @@ nav a:hover::after{
 
 }
 
-.language-switch button.active{
+.language-switch a.active{
 
     background:rgba(255,255,255,.18);
 
 }
 
-.language-switch button:hover{
+.language-switch a:hover{
 
     background:rgba(255,255,255,.12);
 
@@ -2739,7 +2739,7 @@ nav a:hover::after{
 
     }
 
-    .language-switch button{
+    .language-switch a{
 
         padding:7px 10px;
 
@@ -3882,7 +3882,7 @@ nav a:hover::after{
     inset:-8%;
 
     background:
-        url("Assets/images/mainImage.jpg")
+        url("Assets/images/Arak-Arakan_Upacara_Melasti.jpg")
         center center / cover no-repeat;
 
     animation:
@@ -4434,7 +4434,7 @@ nav a:hover::after{
 
 }
 
-.language-switch button{
+.language-switch a{
 
     padding:7px 11px;
 
@@ -4458,7 +4458,7 @@ nav a:hover::after{
 
 }
 
-.language-switch button.active{
+.language-switch a.active{
 
     background:var(--primary);
 
@@ -4471,7 +4471,7 @@ nav a:hover::after{
 
 }
 
-.language-switch button:hover{
+.language-switch a:hover{
 
     color:var(--white);
 
@@ -4873,6 +4873,197 @@ nav a:hover::after{
 
         font-size:.9rem;
 
+    }
+
+}
+
+/* ==================== CANVA FOOTER LINK ==================== */
+
+.canva-link{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+
+    padding:12px 18px;
+
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:999px;
+
+    color:var(--text);
+    background:rgba(255,255,255,.04);
+
+    text-decoration:none;
+
+    transition:
+        transform .35s cubic-bezier(.22,.61,.36,1),
+        background .35s ease,
+        border-color .35s ease,
+        box-shadow .35s ease;
+}
+
+.canva-arrow{
+    display:inline-block;
+
+    transition:
+        transform .35s cubic-bezier(.22,.61,.36,1);
+}
+
+.canva-link:hover{
+    transform:translateY(-3px);
+
+    background:rgba(92,200,232,.08);
+
+    border-color:rgba(92,200,232,.35);
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.2),
+        0 0 25px rgba(92,200,232,.08);
+}
+
+.canva-link:hover .canva-arrow{
+    transform:translate(3px,-3px);
+}
+
+.canva-link:active{
+    transform:scale(.96);
+}
+
+/* ==================== CANVA FOOTER LINK ==================== */
+
+.canva-link{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+
+    padding:12px 18px;
+
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:999px;
+
+    color:var(--text);
+    background:rgba(255,255,255,.04);
+
+    text-decoration:none;
+
+    transition:
+        transform .35s cubic-bezier(.22,.61,.36,1),
+        background .35s ease,
+        border-color .35s ease,
+        box-shadow .35s ease;
+}
+
+.canva-arrow{
+    display:inline-block;
+
+    transition:
+        transform .35s cubic-bezier(.22,.61,.36,1);
+}
+
+.canva-link:hover{
+    transform:translateY(-3px);
+
+    background:rgba(92,200,232,.08);
+
+    border-color:rgba(92,200,232,.35);
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.2),
+        0 0 25px rgba(92,200,232,.08);
+}
+
+.canva-link:hover .canva-arrow{
+    transform:translate(3px,-3px);
+}
+
+.canva-link:active{
+    transform:scale(.96);
+}
+
+/* ==================== LANGUAGE SWITCH ==================== */
+
+.language-switch{
+    display:flex;
+    align-items:center;
+    gap:2px;
+    padding:3px;
+
+    border:1px solid var(--border);
+    border-radius:999px;
+
+    background:rgba(255,255,255,.04);
+}
+
+.language-switch a{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:7px 11px;
+
+    border-radius:999px;
+
+    color:var(--text);
+    text-decoration:none;
+
+    font-size:.75rem;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:
+        background .3s ease,
+        color .3s ease,
+        transform .25s ease;
+}
+
+.language-switch a:hover{
+    background:rgba(92,200,232,.1);
+    color:var(--white);
+}
+
+.language-switch a.active{
+    background:var(--primary);
+    color:#001921;
+}
+
+.language-switch a:active{
+    transform:scale(.94);
+}
+
+/* ==================== QUIZ BACK BUTTON FIX ==================== */
+
+.quiz-back{
+    position:absolute;
+
+    top:30px;
+    left:30px;
+
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+
+    color:rgba(255,255,255,.7);
+
+    font-family:"Poppins",sans-serif;
+    font-size:.9rem;
+    font-weight:500;
+
+    text-decoration:none;
+
+    transition:var(--transition);
+}
+
+.quiz-back:hover{
+    color:var(--primary);
+    transform:translateX(-3px);
+}
+
+@media (max-width:768px){
+
+    .quiz-back{
+        top:20px;
+        left:20px;
+        font-size:.82rem;
     }
 
 }
