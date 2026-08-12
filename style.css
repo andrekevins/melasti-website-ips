@@ -3882,7 +3882,7 @@ nav a:hover::after{
     inset:-8%;
 
     background:
-        url("Assets/images/Arak-Arakan_Upacara_Melasti.jpg")
+        url("Assets/images/mainImage.jpg")
         center center / cover no-repeat;
 
     animation:
@@ -5067,3 +5067,136 @@ nav a:hover::after{
     }
 
 }
+
+/* ==================== LANGUAGE SWITCH FIX ==================== */
+
+.language-switch{
+    display:flex;
+    align-items:center;
+    gap:3px;
+
+    padding:4px;
+
+    border:1px solid var(--border);
+    border-radius:999px;
+
+    background:rgba(255,255,255,.04);
+}
+
+.language-switch a{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    min-width:38px;
+    padding:7px 10px;
+
+    border:none;
+    border-radius:999px;
+
+    background:transparent;
+
+    color:rgba(255,255,255,.55);
+
+    font-family:inherit;
+    font-size:.75rem;
+    font-weight:600;
+
+    text-decoration:none;
+
+    cursor:pointer;
+
+    transition:
+        color .3s ease,
+        background .3s ease,
+        box-shadow .3s ease,
+        transform .3s ease;
+}
+
+.language-switch a:hover{
+    color:var(--white);
+
+    background:rgba(92,200,232,.1);
+
+    transform:translateY(-1px);
+}
+
+.language-switch a.active{
+    color:var(--background);
+
+    background:var(--primary);
+
+    box-shadow:
+        0 0 15px rgba(92,200,232,.25);
+}
+
+.language-switch a.active:hover{
+    background:var(--primaryHover);
+    color:var(--background);
+}
+
+
+/* ==================== MOBILE ==================== */
+
+@media (max-width:768px){
+
+    .language-switch{
+        display:flex;
+        margin-left:auto;
+
+        gap:2px;
+        padding:3px;
+    }
+
+    .language-switch a{
+        min-width:34px;
+
+        padding:7px 9px;
+
+        font-size:.72rem;
+    }
+
+}
+
+/* LANGUAGE SWITCH — INNER ACTIVE PILL */
+
+.language-switch button{
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: rgba(255,255,255,.55);
+
+    padding: 7px 11px;
+
+    border-radius: 999px;
+
+    font-family: inherit;
+    font-size: .75rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background .3s ease,
+        color .3s ease,
+        transform .3s ease;
+}
+
+.language-switch button:hover{
+    color: #fff;
+}
+
+.language-switch button.active{
+    background: #5CC8E8;
+    color: #001921;
+
+    box-shadow:
+        0 0 15px rgba(92,200,232,.25);
+}
+
+.language-switch button:active{
+    transform: scale(.94);
+}
+
