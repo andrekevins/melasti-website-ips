@@ -509,7 +509,7 @@ function selectAnswer(index) {
 
 
     nextButton.textContent =
-        "Konfirmasi Jawaban";
+        "Periksa Jawaban";
 
 
     nextButton.style.display =
