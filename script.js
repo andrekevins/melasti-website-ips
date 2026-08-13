@@ -963,3 +963,492 @@ pageLinks.forEach(link => {
 
 });
 
+/* ============================================================
+   MELASTI — CINEMATIC SCROLL SYSTEM
+   PHASE 2
+   ============================================================ */
+
+(() => {
+
+    const reducedMotion =
+        window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+
+    /* ========================================================
+       SECTION SCROLL PROGRESS
+       ======================================================== */
+
+    const cinematicSections = [
+        ".intro",
+        "#definition",
+        "#purpose",
+        ".timeline-section",
+        ".facts-section",
+        ".moments-section",
+        ".team-section"
+    ];
+
+    const sections =
+        cinematicSections
+            .map(selector =>
+                document.querySelector(selector)
+            )
+            .filter(Boolean);
+
+
+    function updateSectionProgress() {
+
+        const viewport =
+            window.innerHeight;
+
+
+        sections.forEach(section => {
+
+            const rect =
+                section.getBoundingClientRect();
+
+
+            /*
+             0 = section hasn't entered yet
+             1 = section has completely passed
+            */
+
+            const progress =
+                (viewport - rect.top) /
+                (viewport + rect.height);
+
+
+            const clamped =
+                Math.max(
+                    0,
+                    Math.min(1, progress)
+                );
+
+
+            section.style.setProperty(
+                "--scroll-progress",
+                clamped.toFixed(3)
+            );
+
+
+            /*
+             Distance from viewport centre.
+             Used for subtle depth.
+            */
+
+            const centre =
+                rect.top +
+                rect.height / 2;
+
+            const distance =
+                centre -
+                viewport / 2;
+
+            const normalized =
+                Math.max(
+                    -1,
+                    Math.min(
+                        1,
+                        distance /
+                        (viewport * .9)
+                    )
+                );
+
+
+            section.style.setProperty(
+                "--section-depth",
+                normalized.toFixed(3)
+            );
+
+        });
+
+    }
+
+
+    /* ========================================================
+       TIMELINE SYSTEM
+       ======================================================== */
+
+    const timeline =
+        document.querySelector(".timeline");
+
+    const timelineItems =
+        timeline
+            ? Array.from(
+                timeline.querySelectorAll(
+                    ".timeline-item"
+                )
+            )
+            : [];
+
+
+    if (timeline && timelineItems.length) {
+
+        /*
+         Create a live progress rail.
+
+         We don't replace the existing rail.
+         This sits over it.
+        */
+
+        const progressRail =
+            document.createElement("div");
+
+        progressRail.className =
+            "timeline-progress";
+
+        timeline.appendChild(
+            progressRail
+        );
+
+
+        function updateTimeline() {
+
+            const timelineRect =
+                timeline.getBoundingClientRect();
+
+
+            const viewportCentre =
+                window.innerHeight * .5;
+
+
+            /*
+             Overall timeline progress.
+            */
+
+            const start =
+                timelineRect.top -
+                viewportCentre;
+
+            const end =
+                timelineRect.bottom -
+                viewportCentre;
+
+
+            const total =
+                end - start;
+
+
+            let progress =
+                total === 0
+                    ? 0
+                    : (
+                        -start /
+                        total
+                    );
+
+
+            progress =
+                Math.max(
+                    0,
+                    Math.min(
+                        1,
+                        progress
+                    )
+                );
+
+
+            timeline.style.setProperty(
+                "--timeline-progress",
+                progress.toFixed(3)
+            );
+
+
+            /*
+             Find the stage closest to
+             the viewport centre.
+            */
+
+            let activeIndex = 0;
+
+            let smallestDistance =
+                Infinity;
+
+
+            timelineItems.forEach(
+                (item, index) => {
+
+                    const rect =
+                        item.getBoundingClientRect();
+
+
+                    const itemCentre =
+                        rect.top +
+                        rect.height / 2;
+
+
+                    const distance =
+                        Math.abs(
+                            itemCentre -
+                            viewportCentre
+                        );
+
+
+                    if (
+                        distance <
+                        smallestDistance
+                    ) {
+
+                        smallestDistance =
+                            distance;
+
+                        activeIndex =
+                            index;
+
+                    }
+
+                }
+            );
+
+
+            timelineItems.forEach(
+                (item, index) => {
+
+                    item.classList.toggle(
+                        "timeline-active",
+                        index === activeIndex
+                    );
+
+
+                    item.classList.toggle(
+                        "timeline-past",
+                        index < activeIndex
+                    );
+
+
+                    item.classList.toggle(
+                        "timeline-next",
+                        index > activeIndex
+                    );
+
+                }
+            );
+
+        }
+
+
+        /*
+         Put the progress rail
+         directly over the existing line.
+        */
+
+        progressRail.style.cssText = `
+            position:absolute;
+            top:0;
+            left:40px;
+            width:2px;
+            height:100%;
+            pointer-events:none;
+            transform-origin:top;
+            transform:scaleY(var(--timeline-progress,0));
+            background:
+                linear-gradient(
+                    180deg,
+                    #5CC8E8,
+                    rgba(92,200,232,.35)
+                );
+            box-shadow:
+                0 0 18px rgba(92,200,232,.28);
+            z-index:1;
+        `;
+
+
+        timeline.style.position =
+            "relative";
+
+
+        /*
+         Mobile rail position.
+        */
+
+        if (
+            window.innerWidth <= 600
+        ) {
+
+            progressRail.style.left =
+                "29px";
+
+        }
+
+    }
+
+
+    /* ========================================================
+       SUBTLE CONTENT DEPTH
+       ======================================================== */
+
+    function updateContentDepth() {
+
+        if (reducedMotion) {
+            return;
+        }
+
+
+        sections.forEach(section => {
+
+            /*
+             Do NOT transform the entire section.
+             That was the problem with the previous
+             3D experiment.
+
+             Instead we target specific visual
+             elements inside each section.
+            */
+
+            const depth =
+                parseFloat(
+                    section.style.getPropertyValue(
+                        "--section-depth"
+                    )
+                ) || 0;
+
+
+            const images =
+                section.querySelectorAll(
+                    ".intro-image, .split-image, .moment-card img"
+                );
+
+
+            images.forEach(image => {
+
+                /*
+                 Maximum movement is tiny.
+                */
+
+                const movement =
+                    depth * -10;
+
+
+                image.style.transform =
+                    `translate3d(0, ${movement}px, 0)`;
+
+            });
+
+        });
+
+    }
+
+
+    /* ========================================================
+       SCROLL REVEAL ENHANCEMENT
+       ======================================================== */
+
+    const revealElements =
+        document.querySelectorAll(
+            ".reveal, .reveal-left, .reveal-right, .reveal-scale"
+        );
+
+
+    /*
+     IntersectionObserver handles visibility.
+
+     We add a slight active state rather
+     than continuously transforming everything.
+    */
+
+    const cinematicObserver =
+        new IntersectionObserver(
+            entries => {
+
+                entries.forEach(entry => {
+
+                    if (
+                        entry.isIntersecting
+                    ) {
+
+                        entry.target.classList.add(
+                            "cinematic-visible"
+                        );
+
+                    }
+
+                });
+
+            },
+            {
+                threshold:.18,
+                rootMargin:"0px 0px -8% 0px"
+            }
+        );
+
+
+    revealElements.forEach(
+        element =>
+            cinematicObserver.observe(
+                element
+            )
+    );
+
+
+    /* ========================================================
+       REQUEST ANIMATION FRAME LOOP
+       ======================================================== */
+
+    let ticking = false;
+
+
+    function update() {
+
+        updateSectionProgress();
+
+        if (
+            timeline &&
+            timelineItems.length
+        ) {
+
+            updateTimeline();
+
+        }
+
+
+        updateContentDepth();
+
+
+        ticking = false;
+
+    }
+
+
+    function requestUpdate() {
+
+        if (!ticking) {
+
+            requestAnimationFrame(
+                update
+            );
+
+            ticking = true;
+
+        }
+
+    }
+
+
+    window.addEventListener(
+        "scroll",
+        requestUpdate,
+        {
+            passive:true
+        }
+    );
+
+
+    window.addEventListener(
+        "resize",
+        requestUpdate,
+        {
+            passive:true
+        }
+    );
+
+
+    /*
+     Initial state.
+    */
+
+    update();
+
+
+})();

@@ -5200,3 +5200,1256 @@ nav a:hover::after{
     transform: scale(.94);
 }
 
+/* ============================================================
+   MELASTI — CINEMATIC VISUAL SYSTEM
+   PHASE 1
+   Does not modify the hero.
+   Does not modify quiz / navbar / footer logic.
+   ============================================================ */
+
+:root{
+    --melasti-ink:#001921;
+    --melasti-deep:#021F2A;
+    --melasti-water:#063847;
+    --melasti-cyan:#5CC8E8;
+    --melasti-soft:#A9D8E5;
+    --melasti-line:rgba(146,225,240,.16);
+    --melasti-white:#F4FBFD;
+}
+
+
+/* ============================================================
+   01 — GLOBAL SECTION ATMOSPHERE
+   ============================================================ */
+
+.intro,
+.split-section,
+.timeline-section,
+.facts-section,
+.moments-section,
+.team-section{
+    position:relative;
+    isolation:isolate;
+}
+
+.intro::after,
+.split-section::after,
+.timeline-section::after,
+.facts-section::after,
+.moments-section::after,
+.team-section::after{
+    content:"";
+
+    position:absolute;
+
+    width:55vw;
+    height:55vw;
+
+    max-width:850px;
+    max-height:850px;
+
+    pointer-events:none;
+
+    z-index:-1;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(92,200,232,.075) 0%,
+            rgba(92,200,232,.025) 30%,
+            transparent 68%
+        );
+
+    filter:blur(25px);
+
+    opacity:.7;
+
+    transform:
+        translate3d(0,0,0);
+
+    animation:
+        melastiAmbient
+        16s
+        ease-in-out
+        infinite
+        alternate;
+}
+
+.intro::after{
+    top:-20%;
+    right:-20%;
+}
+
+#definition::after{
+    top:20%;
+    left:-25%;
+    animation-delay:-4s;
+}
+
+#purpose::after{
+    bottom:-25%;
+    right:-20%;
+    animation-delay:-8s;
+}
+
+.timeline-section::after{
+    top:15%;
+    right:-25%;
+    animation-delay:-3s;
+}
+
+.facts-section::after{
+    bottom:-30%;
+    left:-20%;
+    animation-delay:-6s;
+}
+
+.moments-section::after{
+    top:0;
+    right:-25%;
+    animation-delay:-10s;
+}
+
+.team-section::after{
+    bottom:-20%;
+    left:-20%;
+    animation-delay:-12s;
+}
+
+@keyframes melastiAmbient{
+    0%{
+        transform:
+            translate3d(-20px,-12px,0)
+            scale(.96);
+    }
+
+    100%{
+        transform:
+            translate3d(25px,18px,0)
+            scale(1.04);
+    }
+}
+
+
+/* ============================================================
+   02 — SECTION HEADINGS
+   ============================================================ */
+
+.section-heading{
+    position:relative;
+
+    z-index:2;
+
+    margin-bottom:
+        clamp(70px,9vw,110px);
+}
+
+.section-heading .section-label{
+    position:relative;
+
+    letter-spacing:
+        clamp(5px,1vw,9px);
+
+    font-size:
+        clamp(.68rem,1vw,.82rem);
+
+    opacity:.82;
+}
+
+.section-heading h2{
+    max-width:900px;
+
+    margin-inline:auto;
+
+    font-size:
+        clamp(2.7rem,6vw,5.2rem);
+
+    line-height:.98;
+
+    letter-spacing:
+        -.045em;
+
+    text-wrap:balance;
+}
+
+.section-heading::after{
+    width:
+        clamp(70px,10vw,130px);
+
+    height:2px;
+
+    margin-top:30px;
+
+    opacity:.75;
+}
+
+
+/* ============================================================
+   03 — INTRODUCTION
+   Turn the simple centered image into an editorial composition.
+   ============================================================ */
+
+.intro{
+    padding:
+        clamp(150px,16vw,230px)
+        0
+        clamp(140px,15vw,220px);
+
+    background:
+        linear-gradient(
+            180deg,
+            #001921 0%,
+            #02232F 52%,
+            #032A37 100%
+        );
+}
+
+.intro .container{
+    position:relative;
+}
+
+.intro-image{
+    width:
+        min(760px,86%);
+
+    border-radius:
+        clamp(18px,2vw,30px);
+
+    box-shadow:
+        0 45px 110px rgba(0,0,0,.38),
+        0 0 0 1px rgba(255,255,255,.05);
+
+    transform:
+        translateY(0);
+
+    transition:
+        transform 1s cubic-bezier(.22,.61,.36,1),
+        box-shadow 1s cubic-bezier(.22,.61,.36,1);
+}
+
+.intro-image::before{
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:2;
+
+    pointer-events:none;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.12),
+            transparent 28%,
+            transparent 72%,
+            rgba(92,200,232,.08)
+        );
+
+    opacity:.55;
+}
+
+.intro-image::after{
+    content:"";
+
+    position:absolute;
+
+    left:7%;
+    right:7%;
+    bottom:-20px;
+
+    height:35px;
+
+    border-radius:50%;
+
+    background:
+        rgba(0,0,0,.38);
+
+    filter:blur(25px);
+
+    z-index:-1;
+}
+
+.intro-image:hover{
+    transform:
+        translateY(-10px);
+
+    box-shadow:
+        0 55px 125px rgba(0,0,0,.44),
+        0 0 45px rgba(92,200,232,.08);
+}
+
+.intro-text{
+    position:relative;
+
+    width:
+        min(860px,90%);
+
+    margin:
+        clamp(55px,7vw,85px)
+        auto
+        0;
+}
+
+.intro-text::before{
+    content:"";
+
+    display:block;
+
+    width:1px;
+    height:70px;
+
+    margin:
+        0
+        auto
+        35px;
+
+    background:
+        linear-gradient(
+            var(--melasti-cyan),
+            transparent
+        );
+
+    opacity:.6;
+}
+
+.intro-text p{
+    max-width:780px;
+
+    margin-inline:auto;
+
+    font-size:
+        clamp(1rem,1.5vw,1.16rem);
+
+    line-height:2.15;
+
+    color:
+        rgba(232,244,248,.72);
+}
+
+
+/* ============================================================
+   04 — DEFINITION / PURPOSE
+   Much more editorial, less "two cards beside each other".
+   ============================================================ */
+
+.split-section{
+    padding:
+        clamp(150px,16vw,230px)
+        0;
+}
+
+.split-container{
+    position:relative;
+
+    gap:
+        clamp(55px,9vw,130px);
+}
+
+.split-content{
+    position:relative;
+}
+
+.split-content .section-label{
+    position:relative;
+
+    padding-left:35px;
+
+    letter-spacing:6px;
+}
+
+.split-content .section-label::before{
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    top:50%;
+
+    width:22px;
+    height:1px;
+
+    background:
+        var(--melasti-cyan);
+}
+
+.split-content h2{
+    max-width:650px;
+
+    font-size:
+        clamp(2.6rem,5.5vw,5rem);
+
+    line-height:.98;
+
+    letter-spacing:
+        -.05em;
+
+    margin:
+        22px
+        0
+        35px;
+}
+
+.split-content p{
+    max-width:620px;
+
+    font-size:
+        clamp(1rem,1.5vw,1.12rem);
+
+    line-height:2.05;
+
+    color:
+        rgba(232,244,248,.68);
+}
+
+.split-image{
+    position:relative;
+
+    border-radius:
+        clamp(20px,2.5vw,34px);
+
+    box-shadow:
+        0 45px 100px rgba(0,0,0,.35),
+        0 0 0 1px rgba(255,255,255,.05);
+
+    overflow:visible;
+}
+
+.split-image::before{
+    content:"";
+
+    position:absolute;
+
+    inset:-12px;
+
+    border:
+        1px solid
+        rgba(92,200,232,.12);
+
+    border-radius:
+        inherit;
+
+    pointer-events:none;
+}
+
+.split-image::after{
+    content:"";
+
+    position:absolute;
+
+    width:90px;
+    height:90px;
+
+    right:-28px;
+    bottom:-28px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(92,200,232,.3),
+            rgba(92,200,232,0)
+        );
+
+    filter:blur(10px);
+
+    pointer-events:none;
+}
+
+.split-image img{
+    border-radius:
+        inherit;
+
+    transition:
+        transform 1.1s
+        cubic-bezier(.22,.61,.36,1);
+}
+
+.split-image:hover img{
+    transform:
+        scale(1.025);
+}
+
+
+/* ============================================================
+   05 — PURPOSE HAS A DIFFERENT RHYTHM
+   ============================================================ */
+
+#purpose{
+    background:
+        linear-gradient(
+            180deg,
+            #032A38,
+            #001921
+        );
+}
+
+#purpose .split-content{
+    padding-left:
+        clamp(0px,4vw,65px);
+}
+
+#purpose .split-image{
+    transform:
+        rotate(-1deg);
+}
+
+#purpose .split-image:hover{
+    transform:
+        rotate(0deg)
+        translateY(-8px);
+}
+
+
+/* ============================================================
+   06 — TIMELINE
+   This is the first major signature upgrade.
+   ============================================================ */
+
+.timeline-section{
+    position:relative;
+
+    padding:
+        clamp(170px,18vw,260px)
+        0;
+
+    background:
+        linear-gradient(
+            180deg,
+            #001921 0%,
+            #02212C 50%,
+            #001921 100%
+        );
+}
+
+.timeline{
+    width:
+        min(1000px,94%);
+
+    margin:
+        100px auto 0;
+}
+
+
+/* Background rail */
+
+.timeline::before{
+    left:40px;
+
+    width:1px;
+
+    background:
+        linear-gradient(
+            180deg,
+            transparent,
+            rgba(92,200,232,.65) 8%,
+            rgba(92,200,232,.25) 75%,
+            transparent
+        );
+
+    box-shadow:
+        0 0 18px rgba(92,200,232,.12);
+}
+
+
+/* Timeline items */
+
+.timeline-item{
+    gap:42px;
+
+    margin-bottom:
+        clamp(75px,9vw,125px);
+}
+
+.timeline-number{
+    position:relative;
+
+    width:82px;
+    height:82px;
+
+    background:
+        #032A38;
+
+    border:
+        1px solid
+        rgba(92,200,232,.45);
+
+    color:
+        var(--melasti-cyan);
+
+    font-size:1.15rem;
+
+    box-shadow:
+        0 0 0 8px rgba(92,200,232,.025),
+        0 18px 45px rgba(0,0,0,.25);
+
+    transition:
+        transform .6s cubic-bezier(.22,.61,.36,1),
+        background .6s ease,
+        color .6s ease,
+        box-shadow .6s ease;
+}
+
+.timeline-number::after{
+    content:"";
+
+    position:absolute;
+
+    inset:-7px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(92,200,232,.08);
+
+    transition:
+        transform .6s ease,
+        opacity .6s ease;
+}
+
+.timeline-item:hover .timeline-number{
+    background:
+        var(--melasti-cyan);
+
+    color:
+        var(--melasti-ink);
+
+    transform:
+        scale(1.08);
+
+    box-shadow:
+        0 0 0 10px rgba(92,200,232,.05),
+        0 0 45px rgba(92,200,232,.2);
+}
+
+.timeline-item:hover .timeline-number::after{
+    transform:
+        scale(1.25);
+
+    opacity:0;
+}
+
+
+/* Timeline cards become cleaner */
+
+.timeline-content{
+    position:relative;
+
+    padding:
+        clamp(28px,4vw,45px);
+
+    border-radius:
+        26px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.055),
+            rgba(255,255,255,.018)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    backdrop-filter:
+        blur(18px);
+
+    box-shadow:
+        0 30px 70px rgba(0,0,0,.2);
+
+    overflow:hidden;
+
+    transition:
+        transform .7s cubic-bezier(.22,.61,.36,1),
+        border-color .7s ease,
+        box-shadow .7s ease;
+}
+
+.timeline-content::before{
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:0;
+
+    width:3px;
+    height:100%;
+
+    background:
+        linear-gradient(
+            transparent,
+            var(--melasti-cyan),
+            transparent
+        );
+
+    opacity:.25;
+
+    transition:
+        opacity .5s ease;
+}
+
+.timeline-content::after{
+    content:"";
+
+    position:absolute;
+
+    width:260px;
+    height:260px;
+
+    top:-150px;
+    right:-150px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(92,200,232,.12),
+            transparent 68%
+        );
+
+    pointer-events:none;
+
+    transition:
+        transform 1s ease;
+}
+
+.timeline-content:hover{
+    transform:
+        translateX(8px)
+        translateY(-5px);
+
+    border-color:
+        rgba(92,200,232,.2);
+
+    box-shadow:
+        0 35px 85px rgba(0,0,0,.3);
+}
+
+.timeline-content:hover::before{
+    opacity:.9;
+}
+
+.timeline-content:hover::after{
+    transform:
+        scale(1.35);
+}
+
+.timeline-content h3{
+    font-size:
+        clamp(1.3rem,2vw,1.7rem);
+
+    letter-spacing:
+        -.02em;
+}
+
+.timeline-content p{
+    color:
+        rgba(232,244,248,.67);
+
+    line-height:
+        2;
+
+    max-width:
+        720px;
+}
+
+
+/* ============================================================
+   07 — FACTS
+   ============================================================ */
+
+.facts-section{
+    padding:
+        clamp(150px,16vw,220px)
+        0;
+
+    background:
+        #032734;
+}
+
+.facts-grid{
+    gap:18px;
+}
+
+.fact-card{
+    position:relative;
+
+    min-height:340px;
+
+    border-radius:28px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.065);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.055),
+            rgba(255,255,255,.012)
+        );
+
+    box-shadow:
+        0 25px 65px rgba(0,0,0,.18);
+
+    transition:
+        transform .7s cubic-bezier(.22,.61,.36,1),
+        border-color .6s ease,
+        box-shadow .7s ease;
+}
+
+.fact-card:hover{
+    transform:
+        translateY(-14px);
+
+    border-color:
+        rgba(92,200,232,.25);
+
+    box-shadow:
+        0 40px 90px rgba(0,0,0,.3),
+        0 0 40px rgba(92,200,232,.05);
+}
+
+.fact-number{
+    font-size:
+        clamp(4rem,7vw,6rem);
+
+    color:
+        rgba(255,255,255,.035);
+}
+
+
+/* ============================================================
+   08 — GALLERY
+   Make it feel like an exhibition.
+   ============================================================ */
+
+.moments-section{
+    padding:
+        clamp(170px,18vw,250px)
+        0;
+
+    background:
+        linear-gradient(
+            180deg,
+            #032734,
+            #001921
+        );
+}
+
+.moments-grid{
+    grid-auto-rows:
+        clamp(300px,32vw,430px);
+
+    gap:18px;
+}
+
+.moment-card{
+    border-radius:
+        clamp(20px,2vw,30px);
+
+    box-shadow:
+        0 30px 75px rgba(0,0,0,.3);
+
+    transition:
+        transform 1s cubic-bezier(.22,.61,.36,1),
+        box-shadow 1s ease;
+}
+
+.moment-card:nth-child(1){
+    grid-row:
+        span 2;
+}
+
+.moment-card:nth-child(2){
+    transform:
+        translateY(35px);
+}
+
+.moment-card:nth-child(3){
+    transform:
+        translateY(-20px);
+}
+
+.moment-card:nth-child(4){
+    transform:
+        translateY(25px);
+}
+
+.moment-card:hover{
+    transform:
+        translateY(-8px)
+        scale(1.012);
+
+    box-shadow:
+        0 45px 100px rgba(0,0,0,.4);
+}
+
+.moment-card img{
+    transition:
+        transform 1.2s
+        cubic-bezier(.22,.61,.36,1),
+        filter 1s ease;
+}
+
+.moment-card:hover img{
+    transform:
+        scale(1.06);
+
+    filter:
+        saturate(1.08);
+}
+
+
+/* ============================================================
+   09 — TEAM
+   ============================================================ */
+
+.team-section{
+    padding:
+        clamp(150px,16vw,220px)
+        0;
+}
+
+.team-card{
+    border-radius:28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.05),
+            rgba(255,255,255,.015)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    box-shadow:
+        0 25px 65px rgba(0,0,0,.2);
+
+    transition:
+        transform .7s cubic-bezier(.22,.61,.36,1),
+        border-color .6s ease,
+        box-shadow .7s ease;
+}
+
+.team-card:hover{
+    transform:
+        translateY(-12px);
+
+    border-color:
+        rgba(92,200,232,.25);
+
+    box-shadow:
+        0 40px 90px rgba(0,0,0,.3);
+}
+
+
+/* ============================================================
+   10 — SECTION TRANSITION BANDS
+   ============================================================ */
+
+.intro,
+#definition,
+#purpose,
+.timeline-section,
+.facts-section,
+.moments-section,
+.team-section{
+    --edge-opacity:.7;
+}
+
+.intro::before,
+#definition::before,
+#purpose::before,
+.timeline-section::before,
+.facts-section::before,
+.moments-section::before,
+.team-section::before{
+    z-index:-1;
+}
+
+
+/* ============================================================
+   11 — MOBILE
+   ============================================================ */
+
+@media(max-width:900px){
+
+    .section-heading h2{
+        font-size:
+            clamp(2.5rem,8vw,4rem);
+    }
+
+    .split-content h2{
+        font-size:
+            clamp(2.5rem,8vw,4rem);
+    }
+
+    .timeline{
+        width:94%;
+    }
+
+    .moment-card:nth-child(n){
+        transform:none;
+    }
+
+}
+
+
+@media(max-width:600px){
+
+    .intro,
+    .split-section,
+    .timeline-section,
+    .facts-section,
+    .moments-section,
+    .team-section{
+        padding:
+            120px 0;
+    }
+
+    .section-heading{
+        margin-bottom:60px;
+    }
+
+    .section-heading h2{
+        font-size:
+            clamp(2.35rem,11vw,3.4rem);
+
+        letter-spacing:-.055em;
+    }
+
+    .intro-image{
+        width:94%;
+
+        border-radius:20px;
+    }
+
+    .intro-text{
+        width:90%;
+    }
+
+    .split-content{
+        padding-left:0 !important;
+    }
+
+    .split-content h2{
+        font-size:
+            clamp(2.35rem,10vw,3.4rem);
+    }
+
+    .split-image{
+        width:94%;
+        margin-inline:auto;
+    }
+
+    .timeline{
+        width:100%;
+    }
+
+    .timeline::before{
+        left:29px;
+    }
+
+    .timeline-item{
+        gap:18px;
+    }
+
+    .timeline-number{
+        width:58px;
+        height:58px;
+
+        font-size:1rem;
+    }
+
+    .timeline-content{
+        padding:24px 20px;
+
+        border-radius:20px;
+    }
+
+    .timeline-content:hover{
+        transform:
+            translateY(-4px);
+    }
+
+    .facts-grid{
+        gap:16px;
+    }
+
+    .fact-card{
+        min-height:300px;
+        border-radius:22px;
+    }
+
+    .moments-grid{
+        grid-template-columns:1fr;
+        grid-auto-rows:320px;
+    }
+
+    .moment-card:nth-child(1){
+        grid-row:auto;
+    }
+
+}
+
+/* ============================================================
+   PHASE 2 — SCROLL CHOREOGRAPHY
+   ============================================================ */
+
+.timeline{
+    --timeline-progress:0;
+}
+
+
+/* ============================================================
+   TIMELINE ACTIVE STATES
+   ============================================================ */
+
+.timeline-item{
+    position:relative;
+
+    transition:
+        opacity .7s ease,
+        transform .8s cubic-bezier(.22,.61,.36,1);
+}
+
+
+/*
+ Active stage
+ */
+
+.timeline-item.timeline-active{
+    z-index:3;
+}
+
+.timeline-item.timeline-active
+.timeline-content{
+
+    border-color:
+        rgba(92,200,232,.24);
+
+    box-shadow:
+        0 40px 90px rgba(0,0,0,.32),
+        0 0 35px rgba(92,200,232,.055);
+
+    transform:
+        translateX(8px)
+        scale(1.012);
+}
+
+
+.timeline-item.timeline-active
+.timeline-number{
+
+    background:
+        #5CC8E8;
+
+    color:
+        #001921;
+
+    box-shadow:
+        0 0 0 10px rgba(92,200,232,.055),
+        0 0 40px rgba(92,200,232,.22);
+}
+
+
+/*
+ Past stages
+ */
+
+.timeline-item.timeline-past{
+    opacity:.72;
+}
+
+
+/*
+ Future stages
+ */
+
+.timeline-item.timeline-next{
+    opacity:.88;
+}
+
+
+/* ============================================================
+   CINEMATIC REVEAL
+   ============================================================ */
+
+.cinematic-visible{
+    will-change:
+        transform,
+        opacity;
+}
+
+
+/* ============================================================
+   SECTION ATMOSPHERE
+   ============================================================ */
+
+.intro,
+#definition,
+#purpose,
+.timeline-section,
+.facts-section,
+.moments-section,
+.team-section{
+    --section-progress:0;
+    --section-depth:0;
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media(
+    prefers-reduced-motion:reduce
+){
+
+    .timeline-item.timeline-active
+    .timeline-content{
+
+        transform:none;
+
+    }
+
+    .timeline-progress{
+
+        transition:none;
+
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE TIMELINE
+   ============================================================ */
+
+@media(max-width:600px){
+
+    .timeline-progress{
+        left:29px !important;
+    }
+
+    .timeline-item.timeline-active
+    .timeline-content{
+
+        transform:
+            translateY(-3px)
+            scale(1.005);
+
+    }
+
+}
