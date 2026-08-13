@@ -1452,3 +1452,2175 @@ pageLinks.forEach(link => {
 
 
 })();
+
+/* ============================================================
+   MELASTI — PHASE 3
+   CINEMATIC TIMELINE ENGINE
+   ============================================================ */
+
+(() => {
+
+    const timeline =
+        document.querySelector(".timeline");
+
+    if (!timeline) {
+        return;
+    }
+
+
+    const items =
+        Array.from(
+            timeline.querySelectorAll(
+                ".timeline-item"
+            )
+        );
+
+
+    if (!items.length) {
+        return;
+    }
+
+
+    const section =
+        timeline.closest(
+            ".timeline-section"
+        );
+
+
+    let activeIndex = 0;
+
+    let ticking = false;
+
+
+    /* ========================================================
+       ACTIVE STAGE
+       ======================================================== */
+
+    function updateTimelineStage() {
+
+        const viewportCenter =
+            window.innerHeight * 0.5;
+
+
+        let closest =
+            Infinity;
+
+        let closestIndex =
+            0;
+
+
+        items.forEach(
+            (item, index) => {
+
+                const rect =
+                    item.getBoundingClientRect();
+
+
+                const center =
+                    rect.top +
+                    rect.height * 0.5;
+
+
+                const distance =
+                    Math.abs(
+                        center -
+                        viewportCenter
+                    );
+
+
+                if (
+                    distance <
+                    closest
+                ) {
+
+                    closest =
+                        distance;
+
+                    closestIndex =
+                        index;
+
+                }
+
+            }
+        );
+
+
+        if (
+            closestIndex !==
+            activeIndex
+        ) {
+
+            activeIndex =
+                closestIndex;
+
+        }
+
+
+        items.forEach(
+            (item, index) => {
+
+                item.classList.toggle(
+                    "timeline-active",
+                    index === activeIndex
+                );
+
+
+                item.classList.toggle(
+                    "timeline-past",
+                    index < activeIndex
+                );
+
+
+                item.classList.toggle(
+                    "timeline-next",
+                    index > activeIndex
+                );
+
+            }
+        );
+
+
+        /*
+           Overall section progress.
+        */
+
+        if (section) {
+
+            const rect =
+                section.getBoundingClientRect();
+
+
+            const total =
+                rect.height -
+                window.innerHeight;
+
+
+            const progress =
+                total > 0
+                    ? Math.max(
+                        0,
+                        Math.min(
+                            1,
+                            -rect.top /
+                            total
+                        )
+                    )
+                    : 0;
+
+
+            section.style.setProperty(
+                "--stage-progress",
+                progress
+            );
+
+        }
+
+    }
+
+
+    /* ========================================================
+       REQUEST FRAME
+       ======================================================== */
+
+    function requestUpdate() {
+
+        if (ticking) {
+            return;
+        }
+
+
+        ticking = true;
+
+
+        requestAnimationFrame(
+            () => {
+
+                updateTimelineStage();
+
+                ticking = false;
+
+            }
+        );
+
+    }
+
+
+    window.addEventListener(
+        "scroll",
+        requestUpdate,
+        {
+            passive:true
+        }
+    );
+
+
+    window.addEventListener(
+        "resize",
+        requestUpdate,
+        {
+            passive:true
+        }
+    );
+
+
+    /*
+       Initial state.
+    */
+
+    updateTimelineStage();
+
+})();
+
+/* ============================================================
+   MELASTI — ANIMATED UKIYO-E WAVE
+   ============================================================ */
+
+(() => {
+
+    const canvas =
+        document.getElementById(
+            "melastiWaveCanvas"
+        );
+
+    if (!canvas) {
+        return;
+    }
+
+    const ctx =
+        canvas.getContext("2d");
+
+    if (!ctx) {
+        return;
+    }
+
+
+    const reducedMotion =
+        window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
+
+    let time = 0;
+
+    let mouseX = 0.5;
+    let mouseY = 0.5;
+
+    let targetMouseX = 0.5;
+    let targetMouseY = 0.5;
+
+
+    /* ========================================================
+       CANVAS
+       ======================================================== */
+
+    function resize() {
+
+        const rect =
+            canvas.getBoundingClientRect();
+
+        width =
+            rect.width;
+
+        height =
+            rect.height;
+
+        dpr =
+            Math.min(
+                window.devicePixelRatio || 1,
+                2
+            );
+
+        canvas.width =
+            width * dpr;
+
+        canvas.height =
+            height * dpr;
+
+        ctx.setTransform(
+            dpr,
+            0,
+            0,
+            dpr,
+            0,
+            0
+        );
+    }
+
+
+    resize();
+
+    window.addEventListener(
+        "resize",
+        resize,
+        {
+            passive: true
+        }
+    );
+
+
+    /* ========================================================
+       MOUSE
+       ======================================================== */
+
+    canvas.addEventListener(
+        "pointermove",
+        event => {
+
+            const rect =
+                canvas.getBoundingClientRect();
+
+            targetMouseX =
+                (event.clientX - rect.left) /
+                rect.width;
+
+            targetMouseY =
+                (event.clientY - rect.top) /
+                rect.height;
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    canvas.addEventListener(
+        "pointerleave",
+        () => {
+
+            targetMouseX = .5;
+            targetMouseY = .5;
+
+        }
+    );
+
+
+    /* ========================================================
+       WAVE PATH
+       ======================================================== */
+
+    function waveY(
+        x,
+        baseY,
+        amplitude,
+        frequency,
+        speed,
+        phase
+    ) {
+
+        const normalized =
+            x / width;
+
+        return (
+            baseY +
+
+            Math.sin(
+                normalized *
+                frequency *
+                Math.PI *
+                2 +
+                time *
+                speed +
+                phase
+            ) *
+            amplitude +
+
+            Math.sin(
+                normalized *
+                frequency *
+                .43 *
+                Math.PI *
+                2 +
+                time *
+                speed *
+                .47 +
+                phase *
+                1.7
+            ) *
+            amplitude *
+            .42
+        );
+
+    }
+
+
+    /* ========================================================
+       DRAW LAYER
+       ======================================================== */
+
+    function drawWave(
+        baseY,
+        amplitude,
+        frequency,
+        speed,
+        phase,
+        fill,
+        stroke,
+        thickness
+    ) {
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            0,
+            height
+        );
+
+        const resolution =
+            Math.max(
+                100,
+                Math.floor(
+                    width / 8
+                )
+            );
+
+
+        for (
+            let i = 0;
+            i <= resolution;
+            i++
+        ) {
+
+            const x =
+                (i / resolution) *
+                width;
+
+            const y =
+                waveY(
+                    x,
+                    baseY,
+                    amplitude,
+                    frequency,
+                    speed,
+                    phase
+                );
+
+            if (i === 0) {
+
+                ctx.lineTo(
+                    x,
+                    y
+                );
+
+            } else {
+
+                ctx.lineTo(
+                    x,
+                    y
+                );
+
+            }
+
+        }
+
+
+        ctx.lineTo(
+            width,
+            height
+        );
+
+        ctx.closePath();
+
+
+        ctx.fillStyle =
+            fill;
+
+        ctx.fill();
+
+
+        if (stroke) {
+
+            ctx.beginPath();
+
+            for (
+                let i = 0;
+                i <= resolution;
+                i++
+            ) {
+
+                const x =
+                    (i / resolution) *
+                    width;
+
+                const y =
+                    waveY(
+                        x,
+                        baseY,
+                        amplitude,
+                        frequency,
+                        speed,
+                        phase
+                    );
+
+                if (i === 0) {
+
+                    ctx.moveTo(
+                        x,
+                        y
+                    );
+
+                } else {
+
+                    ctx.lineTo(
+                        x,
+                        y
+                    );
+
+                }
+
+            }
+
+
+            ctx.strokeStyle =
+                stroke;
+
+            ctx.lineWidth =
+                thickness;
+
+            ctx.stroke();
+
+        }
+
+    }
+
+
+    /* ========================================================
+       FOAM
+       ======================================================== */
+
+    function drawFoam(
+        offset,
+        scale,
+        alpha
+    ) {
+
+        const crestX =
+            width *
+            (
+                .63 +
+                Math.sin(
+                    time *
+                    .23 +
+                    offset
+                ) *
+                .08
+            );
+
+
+        const crestY =
+            waveY(
+                crestX,
+                height * .49,
+                height * .12,
+                1.4,
+                .45,
+                offset
+            );
+
+
+        ctx.save();
+
+        ctx.translate(
+            crestX,
+            crestY
+        );
+
+        ctx.scale(
+            scale,
+            scale
+        );
+
+
+        ctx.strokeStyle =
+            `rgba(218,247,250,${alpha})`;
+
+        ctx.lineWidth =
+            3;
+
+
+        /*
+         * Large stylized foam claws.
+         */
+
+        for (
+            let i = 0;
+            i < 7;
+            i++
+        ) {
+
+            const angle =
+                -.9 +
+                i * .31;
+
+            const length =
+                35 +
+                Math.sin(
+                    i * 1.7 +
+                    time * .8
+                ) *
+                12;
+
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                0,
+                0
+            );
+
+            ctx.quadraticCurveTo(
+                Math.cos(angle) *
+                length *
+                .55,
+
+                Math.sin(angle) *
+                length *
+                .55,
+
+                Math.cos(angle) *
+                length,
+
+                Math.sin(angle) *
+                length
+            );
+
+            ctx.stroke();
+
+        }
+
+
+        /*
+         * Small foam dots.
+         */
+
+        for (
+            let i = 0;
+            i < 22;
+            i++
+        ) {
+
+            const angle =
+                i * 2.399 +
+                time * .12;
+
+            const radius =
+                15 +
+                (
+                    i % 5
+                ) *
+                12;
+
+
+            const x =
+                Math.cos(angle) *
+                radius;
+
+            const y =
+                Math.sin(angle) *
+                radius *
+                .55;
+
+
+            ctx.beginPath();
+
+            ctx.arc(
+                x,
+                y,
+                1.5 +
+                (i % 3),
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fillStyle =
+                `rgba(
+                    225,
+                    249,
+                    250,
+                    ${alpha * .75}
+                )`;
+
+            ctx.fill();
+
+        }
+
+
+        ctx.restore();
+
+    }
+
+
+    /* ========================================================
+       DISTANT MOUNTAIN
+       ======================================================== */
+
+    function drawMountain() {
+
+        const mountainX =
+            width * .78;
+
+        const mountainBase =
+            height * .56;
+
+        const mountainHeight =
+            height * .27;
+
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            mountainX -
+            width * .22,
+
+            mountainBase
+        );
+
+        ctx.lineTo(
+            mountainX,
+
+            mountainBase -
+            mountainHeight
+        );
+
+        ctx.lineTo(
+            mountainX +
+            width * .22,
+
+            mountainBase
+        );
+
+        ctx.closePath();
+
+
+        ctx.fillStyle =
+            "rgba(9,57,72,.38)";
+
+        ctx.fill();
+
+
+        /*
+         * Snow / light cap.
+         */
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            mountainX -
+            width * .055,
+
+            mountainBase -
+            mountainHeight +
+            height * .075
+        );
+
+        ctx.lineTo(
+            mountainX,
+
+            mountainBase -
+            mountainHeight
+        );
+
+        ctx.lineTo(
+            mountainX +
+            width * .055,
+
+            mountainBase -
+            mountainHeight +
+            height * .075
+        );
+
+        ctx.closePath();
+
+
+        ctx.fillStyle =
+            "rgba(169,216,229,.14)";
+
+        ctx.fill();
+
+    }
+
+
+    /* ========================================================
+       REFLECTION LINES
+       ======================================================== */
+
+    function drawReflection() {
+
+        const y =
+            height * .73;
+
+
+        ctx.save();
+
+        ctx.globalAlpha =
+            .13;
+
+
+        for (
+            let i = 0;
+            i < 28;
+            i++
+        ) {
+
+            const x =
+                (
+                    i *
+                    width /
+                    28
+                ) +
+                Math.sin(
+                    time *
+                    .35 +
+                    i
+                ) *
+                18;
+
+
+            const length =
+                20 +
+                Math.sin(
+                    time *
+                    .6 +
+                    i *
+                    .8
+                ) *
+                15;
+
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                x,
+                y +
+                i *
+                4
+            );
+
+            ctx.lineTo(
+                x + length,
+                y +
+                i *
+                4
+            );
+
+
+            ctx.strokeStyle =
+                "#8ED6E5";
+
+            ctx.lineWidth =
+                1;
+
+
+            ctx.stroke();
+
+        }
+
+        ctx.restore();
+
+    }
+
+
+    /* ========================================================
+       RENDER
+       ======================================================== */
+
+    function render() {
+
+        /*
+         * Mouse interpolation.
+         */
+
+        mouseX +=
+            (
+                targetMouseX -
+                mouseX
+            ) *
+            .035;
+
+        mouseY +=
+            (
+                targetMouseY -
+                mouseY
+            ) *
+            .035;
+
+
+        ctx.clearRect(
+            0,
+            0,
+            width,
+            height
+        );
+
+
+        /*
+         * Background.
+         */
+
+        const gradient =
+            ctx.createLinearGradient(
+                0,
+                0,
+                0,
+                height
+            );
+
+
+        gradient.addColorStop(
+            0,
+            "#062D3A"
+        );
+
+        gradient.addColorStop(
+            .45,
+            "#043646"
+        );
+
+        gradient.addColorStop(
+            1,
+            "#001921"
+        );
+
+
+        ctx.fillStyle =
+            gradient;
+
+        ctx.fillRect(
+            0,
+            0,
+            width,
+            height
+        );
+
+
+        /*
+         * Slight mouse-driven light.
+         */
+
+        const glow =
+            ctx.createRadialGradient(
+                mouseX * width,
+                mouseY * height,
+                0,
+                mouseX * width,
+                mouseY * height,
+                width * .5
+            );
+
+
+        glow.addColorStop(
+            0,
+            "rgba(92,200,232,.07)"
+        );
+
+        glow.addColorStop(
+            1,
+            "rgba(92,200,232,0)"
+        );
+
+
+        ctx.fillStyle =
+            glow;
+
+        ctx.fillRect(
+            0,
+            0,
+            width,
+            height
+        );
+
+
+        /*
+         * Distant landscape.
+         */
+
+        drawMountain();
+
+
+        /*
+         * Far water.
+         */
+
+        drawWave(
+            height * .62,
+            height * .035,
+            1.15,
+            .18,
+            1.4,
+            "#073C4C",
+            "rgba(107,197,215,.14)",
+            1
+        );
+
+
+        /*
+         * Middle wave.
+         */
+
+        drawWave(
+            height * .65,
+            height * .075,
+            1.65,
+            .27,
+            .4,
+            "#075166",
+            "rgba(120,216,231,.20)",
+            1.5
+        );
+
+
+        /*
+         * Main dramatic wave.
+         */
+
+        drawWave(
+            height * .58,
+            height * .14,
+            1.35,
+            .42,
+            -.7,
+            "#08718A",
+            "rgba(170,231,238,.34)",
+            2
+        );
+
+
+        /*
+         * Foreground wave.
+         */
+
+        drawWave(
+            height * .73,
+            height * .11,
+            2.1,
+            .31,
+            2.2,
+            "#03495C",
+            "rgba(126,213,227,.18)",
+            1.5
+        );
+
+
+        drawReflection();
+
+
+        /*
+         * Foam.
+         */
+
+        drawFoam(
+            0,
+            1.0,
+            .75
+        );
+
+        drawFoam(
+            2.7,
+            .48,
+            .32
+        );
+
+
+        /*
+         * Reduced motion:
+         * render once only.
+         */
+
+        if (!reducedMotion) {
+
+            time += .008;
+
+            requestAnimationFrame(
+                render
+            );
+
+        }
+
+    }
+
+
+    render();
+
+})();
+
+/* ============================================================
+   MELASTI — WAVE DETAIL LAYER
+   ============================================================ */
+
+(() => {
+
+    const canvas =
+        document.getElementById(
+            "melastiWaveDetails"
+        );
+
+    if (!canvas) {
+        return;
+    }
+
+    const ctx =
+        canvas.getContext("2d");
+
+    if (!ctx) {
+        return;
+    }
+
+
+    const section =
+        canvas.closest(
+            ".melasti-wave-transition"
+        );
+
+
+    const reducedMotion =
+        window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
+
+    let time = 0;
+
+    let mouseX = .5;
+    let mouseY = .5;
+
+    let targetMouseX = .5;
+    let targetMouseY = .5;
+
+    let scrollOffset = 0;
+
+
+    /* ========================================================
+       RESIZE
+       ======================================================== */
+
+    function resize() {
+
+        const rect =
+            canvas.getBoundingClientRect();
+
+        width =
+            rect.width;
+
+        height =
+            rect.height;
+
+        dpr =
+            Math.min(
+                window.devicePixelRatio || 1,
+                2
+            );
+
+        canvas.width =
+            width * dpr;
+
+        canvas.height =
+            height * dpr;
+
+        ctx.setTransform(
+            dpr,
+            0,
+            0,
+            dpr,
+            0,
+            0
+        );
+
+    }
+
+
+    resize();
+
+
+    window.addEventListener(
+        "resize",
+        resize,
+        {
+            passive:true
+        }
+    );
+
+
+    /* ========================================================
+       MOUSE
+       ======================================================== */
+
+    window.addEventListener(
+        "pointermove",
+        event => {
+
+            const rect =
+                canvas.getBoundingClientRect();
+
+            targetMouseX =
+                (
+                    event.clientX -
+                    rect.left
+                ) /
+                rect.width;
+
+            targetMouseY =
+                (
+                    event.clientY -
+                    rect.top
+                ) /
+                rect.height;
+
+        },
+        {
+            passive:true
+        }
+    );
+
+
+    /* ========================================================
+       SCROLL
+       ======================================================== */
+
+    window.addEventListener(
+        "scroll",
+        () => {
+
+            if (!section) {
+                return;
+            }
+
+            const rect =
+                section.getBoundingClientRect();
+
+            scrollOffset =
+                (
+                    window.innerHeight -
+                    rect.top
+                ) /
+                (
+                    window.innerHeight +
+                    rect.height
+                );
+
+        },
+        {
+            passive:true
+        }
+    );
+
+
+    /* ========================================================
+       CREST FUNCTION
+       ======================================================== */
+
+    function crestY(x) {
+
+        const n =
+            x / width;
+
+        return (
+            height * .49 +
+
+            Math.sin(
+                n *
+                Math.PI *
+                2.7 +
+                time *
+                .42
+            ) *
+            height *
+            .12 +
+
+            Math.sin(
+                n *
+                Math.PI *
+                1.1 +
+                time *
+                .21
+            ) *
+            height *
+            .045
+        );
+
+    }
+
+
+    /* ========================================================
+       FOAM STROKES
+       ======================================================== */
+
+    function drawFoamStrokes() {
+
+        /*
+         * Main crest region.
+         */
+
+        for (
+            let i = 0;
+            i < 95;
+            i++
+        ) {
+
+            const x =
+                width *
+                (
+                    .35 +
+                    (
+                        i /
+                        94
+                    ) *
+                    .48
+                );
+
+
+            const y =
+                crestY(x);
+
+
+            /*
+             * Give each stroke a slightly
+             * different phase.
+             */
+
+            const wave =
+                Math.sin(
+                    time *
+                    .8 +
+                    i *
+                    1.73
+                );
+
+
+            const length =
+                5 +
+                (
+                    (
+                        wave +
+                        1
+                    ) /
+                    2
+                ) *
+                15;
+
+
+            const angle =
+                -.45 +
+                Math.sin(
+                    i *
+                    .91
+                ) *
+                .35;
+
+
+            ctx.save();
+
+            ctx.translate(
+                x,
+                y
+            );
+
+            ctx.rotate(
+                angle
+            );
+
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                0,
+                0
+            );
+
+            ctx.quadraticCurveTo(
+                length *
+                .45,
+
+                -length *
+                .25,
+
+                length,
+
+                -length *
+                .12
+            );
+
+
+            ctx.strokeStyle =
+                `rgba(
+                    225,
+                    248,
+                    250,
+                    ${
+                        .15 +
+                        (
+                            (
+                                wave +
+                                1
+                            ) /
+                            2
+                        ) *
+                        .35
+                    }
+                )`;
+
+
+            ctx.lineWidth =
+                .7 +
+                (
+                    i %
+                    3
+                ) *
+                .35;
+
+
+            ctx.stroke();
+
+            ctx.restore();
+
+        }
+
+    }
+
+
+    /* ========================================================
+       CURLING FOAM
+       ======================================================== */
+
+    function drawCurl() {
+
+        const x =
+            width *
+            (
+                .62 +
+                Math.sin(
+                    time *
+                    .18
+                ) *
+                .025
+            );
+
+
+        const y =
+            crestY(x);
+
+
+        ctx.save();
+
+        ctx.translate(
+            x,
+            y
+        );
+
+
+        ctx.strokeStyle =
+            "rgba(229,249,250,.72)";
+
+        ctx.lineWidth =
+            2;
+
+
+        /*
+         * Main spiral.
+         */
+
+        ctx.beginPath();
+
+
+        for (
+            let i = 0;
+            i < 70;
+            i++
+        ) {
+
+            const t =
+                i / 69;
+
+            const angle =
+                t *
+                Math.PI *
+                3.3;
+
+            const radius =
+                75 *
+                (
+                    1 -
+                    t
+                );
+
+
+            const px =
+                Math.cos(angle) *
+                radius;
+
+            const py =
+                Math.sin(angle) *
+                radius *
+                .62;
+
+
+            if (i === 0) {
+
+                ctx.moveTo(
+                    px,
+                    py
+                );
+
+            } else {
+
+                ctx.lineTo(
+                    px,
+                    py
+                );
+
+            }
+
+        }
+
+
+        ctx.stroke();
+
+
+        /*
+         * Secondary ink contour.
+         */
+
+        ctx.beginPath();
+
+        for (
+            let i = 0;
+            i < 50;
+            i++
+        ) {
+
+            const t =
+                i / 49;
+
+            const angle =
+                t *
+                Math.PI *
+                2.8 +
+                .5;
+
+            const radius =
+                48 *
+                (
+                    1 -
+                    t
+                );
+
+
+            const px =
+                Math.cos(angle) *
+                radius;
+
+            const py =
+                Math.sin(angle) *
+                radius *
+                .55;
+
+
+            if (i === 0) {
+
+                ctx.moveTo(
+                    px,
+                    py
+                );
+
+            } else {
+
+                ctx.lineTo(
+                    px,
+                    py
+                );
+
+            }
+
+        }
+
+        ctx.strokeStyle =
+            "rgba(176,229,237,.35)";
+
+        ctx.lineWidth =
+            1;
+
+        ctx.stroke();
+
+
+        ctx.restore();
+
+    }
+
+
+    /* ========================================================
+       SPRAY PARTICLES
+       ======================================================== */
+
+    function drawSpray() {
+
+        const originX =
+            width *
+            .63;
+
+        const originY =
+            crestY(
+                originX
+            );
+
+
+        for (
+            let i = 0;
+            i < 55;
+            i++
+        ) {
+
+            const phase =
+                i *
+                2.37;
+
+
+            const life =
+                (
+                    time *
+                    (
+                        .15 +
+                        (
+                            i %
+                            5
+                        ) *
+                        .025
+                    ) +
+                    phase
+                ) %
+                1;
+
+
+            /*
+             * Particles rise and fall.
+             */
+
+            const x =
+                originX +
+                Math.sin(
+                    phase
+                ) *
+                (
+                    30 +
+                    life *
+                    100
+                );
+
+
+            const y =
+                originY -
+                life *
+                (
+                    45 +
+                    (
+                        i %
+                        4
+                    ) *
+                    18
+                ) +
+                life *
+                life *
+                80;
+
+
+            const size =
+                1 +
+                (
+                    i %
+                    3
+                ) *
+                .7;
+
+
+            const alpha =
+                (
+                    1 -
+                    life
+                ) *
+                .45;
+
+
+            ctx.beginPath();
+
+            ctx.arc(
+                x,
+                y,
+                size,
+                0,
+                Math.PI *
+                2
+            );
+
+
+            ctx.fillStyle =
+                `rgba(
+                    224,
+                    249,
+                    251,
+                    ${alpha}
+                )`;
+
+            ctx.fill();
+
+        }
+
+    }
+
+
+    /* ========================================================
+       LIGHT REFLECTION
+       ======================================================== */
+
+    function drawLight() {
+
+        const x =
+            width *
+            (
+                .22 +
+                mouseX *
+                .55
+            );
+
+
+        const y =
+            height *
+            .76;
+
+
+        const gradient =
+            ctx.createRadialGradient(
+                x,
+                y,
+                0,
+                x,
+                y,
+                width *
+                .3
+            );
+
+
+        gradient.addColorStop(
+            0,
+            "rgba(155,230,239,.14)"
+        );
+
+        gradient.addColorStop(
+            .35,
+            "rgba(92,200,232,.055)"
+        );
+
+        gradient.addColorStop(
+            1,
+            "rgba(92,200,232,0)"
+        );
+
+
+        ctx.fillStyle =
+            gradient;
+
+        ctx.fillRect(
+            0,
+            0,
+            width,
+            height
+        );
+
+
+        /*
+         * Reflection strokes.
+         */
+
+        ctx.save();
+
+        ctx.globalAlpha =
+            .17;
+
+
+        for (
+            let i = 0;
+            i < 35;
+            i++
+        ) {
+
+            const offset =
+                (
+                    i -
+                    17
+                ) *
+                8;
+
+
+            const yOffset =
+                y +
+                Math.sin(
+                    time *
+                    .6 +
+                    i
+                ) *
+                7;
+
+
+            const length =
+                20 +
+                Math.sin(
+                    time +
+                    i *
+                    .7
+                ) *
+                12;
+
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                x +
+                offset -
+                length,
+                yOffset
+            );
+
+            ctx.lineTo(
+                x +
+                offset +
+                length,
+                yOffset
+            );
+
+
+            ctx.strokeStyle =
+                "#B9EAF0";
+
+            ctx.lineWidth =
+                .8;
+
+
+            ctx.stroke();
+
+        }
+
+
+        ctx.restore();
+
+    }
+
+
+    /* ========================================================
+       PAPER / INK TEXTURE
+       ======================================================== */
+
+    function drawTexture() {
+
+        /*
+         * Very subtle.
+         *
+         * This prevents the canvas from looking
+         * like a perfectly clean digital gradient.
+         */
+
+        ctx.save();
+
+        ctx.globalAlpha =
+            .025;
+
+
+        for (
+            let i = 0;
+            i < 180;
+            i++
+        ) {
+
+            const x =
+                Math.random() *
+                width;
+
+            const y =
+                Math.random() *
+                height;
+
+
+            ctx.fillStyle =
+                i % 2
+                    ? "#D9F3F6"
+                    : "#001019";
+
+
+            ctx.fillRect(
+                x,
+                y,
+                1,
+                1
+            );
+
+        }
+
+
+        ctx.restore();
+
+    }
+
+
+    /* ========================================================
+       RENDER
+       ======================================================== */
+
+    function render() {
+
+        mouseX +=
+            (
+                targetMouseX -
+                mouseX
+            ) *
+            .04;
+
+
+        mouseY +=
+            (
+                targetMouseY -
+                mouseY
+            ) *
+            .04;
+
+
+        ctx.clearRect(
+            0,
+            0,
+            width,
+            height
+        );
+
+
+        /*
+         * Slight scroll movement.
+         */
+
+        ctx.save();
+
+        ctx.translate(
+            scrollOffset *
+            -18,
+            scrollOffset *
+            5
+        );
+
+
+        drawLight();
+
+        drawFoamStrokes();
+
+        drawCurl();
+
+        drawSpray();
+
+        ctx.restore();
+
+
+        drawTexture();
+
+
+        if (!reducedMotion) {
+
+            time += .009;
+
+            requestAnimationFrame(
+                render
+            );
+
+        }
+
+    }
+
+
+    render();
+
+})();
+
+/* ============================================================
+   WAVE → TIMELINE TRANSITION
+   ============================================================ */
+
+(() => {
+
+    const section =
+        document.querySelector(
+            ".wave-timeline-transition"
+        );
+
+    if (!section) return;
+
+
+    const observer =
+        new IntersectionObserver(
+            entries => {
+
+                entries.forEach(entry => {
+
+                    if (entry.isIntersecting) {
+
+                        section.classList.add(
+                            "is-visible"
+                        );
+
+                    }
+
+                });
+
+            },
+            {
+                threshold: 0.18
+            }
+        );
+
+
+    observer.observe(section);
+
+})();
+
+/* ============================================================
+   KATA PENGANTAR — SUBTLE SCROLL DEPTH
+   ============================================================ */
+
+(() => {
+
+    const image =
+        document.querySelector(
+            ".kata-pengantar-image"
+        );
+
+    if (!image) return;
+
+    let ticking = false;
+
+    function updateDepth() {
+
+        const rect =
+            image.getBoundingClientRect();
+
+        const viewportHeight =
+            window.innerHeight;
+
+        const center =
+            rect.top +
+            rect.height / 2;
+
+        const distance =
+            center -
+            viewportHeight / 2;
+
+        const progress =
+            Math.max(
+                -1,
+                Math.min(
+                    1,
+                    distance /
+                    viewportHeight
+                )
+            );
+
+        const movement =
+            progress * -18;
+
+        image.style.transform =
+            `translate3d(0, ${movement}px, 0)`;
+
+        ticking = false;
+    }
+
+    function requestUpdate() {
+
+        if (!ticking) {
+
+            requestAnimationFrame(
+                updateDepth
+            );
+
+            ticking = true;
+        }
+    }
+
+    window.addEventListener(
+        "scroll",
+        requestUpdate,
+        { passive: true }
+    );
+
+    requestUpdate();
+
+})();
+
+/* ============================================================
+   AMBIENT SECTION DEPTH
+   ============================================================ */
+
+(() => {
+
+    const sections =
+        document.querySelectorAll(
+            ".ambient-section"
+        );
+
+    if (!sections.length) return;
+
+    let ticking = false;
+
+    function update() {
+
+        sections.forEach(section => {
+
+            const rect =
+                section.getBoundingClientRect();
+
+            const center =
+                rect.top +
+                rect.height / 2;
+
+            const progress =
+                (
+                    center -
+                    window.innerHeight / 2
+                ) / window.innerHeight;
+
+            const offset =
+                Math.max(
+                    -35,
+                    Math.min(
+                        35,
+                        progress * -18
+                    )
+                );
+
+            section.style.setProperty(
+                "--ambient-y",
+                `${offset}px`
+            );
+
+        });
+
+        ticking = false;
+    }
+
+    function requestUpdate() {
+
+        if (ticking) return;
+
+        ticking = true;
+
+        requestAnimationFrame(
+            update
+        );
+    }
+
+    window.addEventListener(
+        "scroll",
+        requestUpdate,
+        { passive: true }
+    );
+
+    requestUpdate();
+
+})();
