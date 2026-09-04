@@ -831,29 +831,6 @@ nav a:hover::after{
 
 }
 
-.timeline::before{
-
-    content:"";
-
-    position:absolute;
-
-    top:0;
-
-    bottom:0;
-
-    left:40px;
-
-    width:3px;
-
-    border-radius:999px;
-
-    background:linear-gradient(
-        var(--primary),
-        rgba(92,200,232,.15)
-    );
-
-}
-
 .timeline-item{
 
     position:relative;
@@ -7544,4 +7521,97 @@ img.reveal.show,
     stroke-width: 1.5;
 
     vector-effect: non-scaling-stroke;
+}
+
+.timeline::before {
+    content: none;
+}
+
+@media(max-width:768px) {
+
+    .timeline::before {
+        top: 30px;
+        bottom: 30px;
+        left: 30px;
+    }
+
+}
+
+/* ============================================================
+   TIMELINE CONNECTORS
+   ============================================================ */
+
+.timeline {
+    position: relative;
+}
+
+.timeline-item {
+    position: relative;
+}
+
+/*
+   Each item creates its own connector.
+   The connector runs from the centre of this number
+   to the centre of the next number.
+*/
+
+.timeline-item:not(:last-child)::after {
+    content: "";
+
+    position: absolute;
+
+    left: 39px;
+    top: 40px;
+
+    width: 3px;
+
+    height: calc(100% + 55px);
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--primary),
+            rgba(92, 200, 232, .15)
+        );
+
+    border-radius: 999px;
+
+    pointer-events: none;
+
+    z-index: 0;
+}
+
+
+/*
+   Keep the number above its connector.
+*/
+
+.timeline-number {
+    position: relative;
+    z-index: 2;
+}
+
+
+/*
+   Your JS-created progress rail must disappear.
+   It was the second line causing the old behaviour.
+*/
+
+.timeline-progress {
+    display: none !important;
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+    .timeline-item:not(:last-child)::after {
+        left: 29px;
+        width: 2px;
+        height: calc(100% + 55px);
+    }
+
 }
