@@ -16,33 +16,43 @@
 
 <body>
 
-    <main class="english-coming-soon">
+    <div class="page-transition">
+        <div class="page-transition-line"></div>
+    </div>
 
-        <div class="english-coming-content">
+    <div class="language-coming-soon active">
 
-            <span class="english-coming-label">
-                ENGLISH VERSION
-            </span>
+        <div class="language-coming-content">
 
-            <h1>
-                Coming Soon
-            </h1>
+            <span class="language-coming-line"></span>
 
-            <p>
-                The English version of the Melasti website
-                is currently being prepared.
+            <p class="language-coming-small">
+                LANGUAGE
             </p>
 
-            <a
-                href="index.html"
-                class="english-back-button"
+            <h2>
+                English Version
+            </h2>
+
+            <p class="language-coming-message">
+                Sorry, we don't have this yet.
+                <br>
+                Coming soon.
+            </p>
+
+            <button
+                type="button"
+                id="closeLanguageComing"
+                onclick="window.location.href='index.html'"
             >
-                ← Back to Indonesian Version
-            </a>
+                Kembali
+            </button>
 
         </div>
 
-    </main>
+    </div>
+
+    <script src="script.js"></script>
 
 </body>
 
